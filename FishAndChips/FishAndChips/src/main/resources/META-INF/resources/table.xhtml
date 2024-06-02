@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Tabela de dados</title>
+</h:head>
+<h:body>
+
+    <h:form>
+        <p:dataTable var="product" value="#{ControllerProduct.products}" editable="true">
+            <p:ajax event="rowEdit" listener="#{ControllerProduct.save}"/>
+            <p:column headerText="Nome" field="nome">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{product.name}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{product.name}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Preço">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{product.price} R$"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{product.price}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Descrição">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{product.description}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{product.description}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column style="width:6rem">
+                <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+    <p:commandButton action="#{ControllerProduct.reset}" value="teste"/>
+</h:body>
+</html>
