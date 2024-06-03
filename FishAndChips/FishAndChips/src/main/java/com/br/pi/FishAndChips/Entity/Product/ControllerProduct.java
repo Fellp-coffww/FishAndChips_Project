@@ -1,8 +1,7 @@
-package com.br.pi.FishAndChips.Controller;
+package com.br.pi.FishAndChips.Entity.Product;
 
 
-import com.br.pi.FishAndChips.Controller.Entity.ProductDB;
-import com.br.pi.FishAndChips.Controller.Entity.Product;
+import com.br.pi.FishAndChips.Entity.Category.Category;
 import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
-import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean("ControllerProduct")
@@ -30,6 +28,15 @@ private ProductDB productDB;
 public void init (){
 
     products = productDB.findAll();
+
+    if (products.size() == 0){
+        productDB.save(new Product("Batata frita", "Porção: 200g", 12.00, new Category("comidas")));
+        productDB.save(new Product("Batata frita com cheddar e bacon", "Porção: 250g", 18.00, new Category("comidas")));
+        productDB.save(new Product("Bolinho de Bacalhau", "Porção: 6 unidades (aproximadamente 180g)", 24.00, new Category("comidas")));
+        productDB.save(new Product("Ceviche de Tilápia", "Porção: 150g (ceviche) + 50g (chips de batata-doce)", 28.00, new Category("comidas")));
+        productDB.save(new Product("Camarão ao Alho e Óleo", "Porção: 150g", 32.00, new Category("comidas")));
+        productDB.save(new Product("Croquete de costela", "Porção: 6 unidades (aproximadamente 180g)", 22.00, new Category("comidas")));
+    }
 
 }
 

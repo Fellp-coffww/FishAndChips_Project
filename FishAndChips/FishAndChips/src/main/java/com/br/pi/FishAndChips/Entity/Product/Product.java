@@ -1,14 +1,15 @@
-package com.br.pi.FishAndChips.Controller.Entity;
+package com.br.pi.FishAndChips.Entity.Product;
+
+import com.br.pi.FishAndChips.Entity.Category.Category;
 
 import javax.persistence.*;
 
 @Entity
-
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String name;
 
@@ -17,14 +18,12 @@ public class Product {
     private String description;
 
 
-    private String categoryName;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    public int getId() {
+    public long getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -52,20 +51,20 @@ public class Product {
         this.description = description;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
 
-        return categoryName;
+        return category;
     }
 
-    public void setCategory(String category) {
-        this.categoryName = category;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public Product(String name, String description, double price, String categoryName) {
+    public Product(String name, String description, double price, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.categoryName = categoryName;
+        this.category = category;
     }
 
     public Product() {
