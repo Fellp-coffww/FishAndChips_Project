@@ -1,6 +1,5 @@
-package com.br.pi.FishAndChips.Controller.Entity;
+package com.br.pi.FishAndChips.Entity.Product;
 
-import com.br.pi.FishAndChips.Controller.Entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
