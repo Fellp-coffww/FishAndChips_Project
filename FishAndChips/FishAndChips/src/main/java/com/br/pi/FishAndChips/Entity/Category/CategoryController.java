@@ -16,6 +16,8 @@ import java.util.List;
 @RequestMapping("/api/category")
 public class CategoryController {
 
+   Category categoryBean;
+
     @Autowired
     CategoryService categoryService;
 
@@ -48,5 +50,14 @@ public class CategoryController {
 
         }
     }
+
+    public void save(){
+
+        categoryService.save(categoryBean);
+
+    }
+
+
+
 
 }

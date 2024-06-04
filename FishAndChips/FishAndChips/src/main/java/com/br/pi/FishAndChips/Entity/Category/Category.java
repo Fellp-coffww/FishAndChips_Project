@@ -23,7 +23,7 @@ public class Category {
     private String name;
 
     @Column
-    private String descricao;
+    private String description;
 
 
 }
