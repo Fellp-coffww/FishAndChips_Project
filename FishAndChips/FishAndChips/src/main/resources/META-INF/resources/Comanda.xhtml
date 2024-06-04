@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<head>
+    <title>Comanda</title>
+    <style>
+        .menu-bar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .menu-bar img {
+            height: 50px;
+            vertical-align: middle;
+        }
+        .menu-bar button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .container {
+            padding: 20px;
+        }
+        .cardapio, .itens {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .cardapio div, .itens div {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<h:form>
+    <div class="menu-bar">
+        <img src="logo.png" alt="Logo da Empresa" />
+        <h:commandButton value="Voltar" action="index.xhtml?faces-redirect=true" styleClass="menu-bar button" />
+    </div>
+    <div class="container">
+        <h2>Comanda da Mesa <h:outputText value="#{param.mesa}" /></h2>
+        <div>
+            Número de Pessoas: <h:inputText value="#{mesaBean.numPessoas}" onchange="atualizaCorMesa()" />
+        </div>
+        <div class="cardapio">
+            <h3>Cardápio</h3>
+            <h:selectOneMenu value="#{mesaBean.filtroCardapio}" onchange="filtrarCardapio()">
+                <f:selectItem itemValue="petiscos" itemLabel="Petiscos" />
+                <f:selectItem itemValue="pratos-principais" itemLabel="Pratos Principais" />
+                <f:selectItem itemValue="bebidas" itemLabel="Bebidas" />
+                <f:selectItem itemValue="sobremesas" itemLabel="Sobremesas" />
+            </h:selectOneMenu>
+            <div>
+                Item: <h:outputText value="#{mesaBean.itemSelecionado}" />
+            </div>
+            <div>
+                Valor: <h:outputText value="#{mesaBean.valorItem}" />
+            </div>
+            <div>
+                Quantidade: <h:inputText value="#{mesaBean.quantidadeItem}" />
+                <h:commandButton value="Adicionar" action="#{mesaBean.adicionarItem}" />
+            </div>
+        </div>
+        <div class="itens">
+            <h3>Itens da Comanda</h3>
+            <h:dataTable value="#{mesaBean.itensComanda}" var="item">
+                <h:column>
+                    <f:facet name="header">Quantidade</f:facet>
+                    #{item.quantidade}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Item</f:facet>
+                    #{item.nome}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Valor</f:facet>
+                    #{item.valor}
+                </h:column>
+            </h:dataTable>
+        </div>
+        <h:commandButton value="Voltar" action="index.xhtml?faces-redirect=true" />
+        <h:commandButton value="Finalizar Comanda" action="#{mesaBean.finalizarComanda}" />
+    </div>
+</h:form>
+</body>
+</html>

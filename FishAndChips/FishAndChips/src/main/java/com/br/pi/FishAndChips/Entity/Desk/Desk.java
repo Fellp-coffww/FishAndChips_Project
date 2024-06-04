@@ -1,10 +1,10 @@
-package com.br.pi.FishAndChips.Entity.Table;
+package com.br.pi.FishAndChips.Entity.Desk;
 
 import java.util.Date;
 
-public class Table {
+public class Desk {
 
-    private TableState tableState;
+    private DeskState tableState;
 
     private int occupantNumber;
 
