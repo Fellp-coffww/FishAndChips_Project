@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<head>
+    <title>Gerenciamento de Comandas</title>
+    <style>
+        .menu-bar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .menu-bar img {
+            height: 50px;
+            vertical-align: middle;
+        }
+        .menu-bar button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .mesas {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .mesa {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 20px;
+            margin: 10px;
+            cursor: pointer;
+            width: 100px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h:form>
+    <div class="menu-bar">
+        <img src="logo.png" alt="Logo da Empresa" />
+        <h:commandButton value="Relatórios" action="relatorios.xhtml?faces-redirect=true" styleClass="menu-bar button" />
+    </div>
+    <div id="mesas-container" class="MesaBean">
+        <ui:repeat value="#{MesaBean.totalMesas}" var="mesa" varStatus="status">
+            <h:commandButton value="Mesa #{status.index + 1}" styleClass="mesa"
+                             action="#{MesaBean.redirectToComanda(status.index + 1)}" />
+        </ui:repeat>
+    </div>
+</h:form>
+</body>
+</html>

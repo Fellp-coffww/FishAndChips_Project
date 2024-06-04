@@ -30,12 +30,12 @@ public void init (){
     products = productDB.findAll();
 
     if (products.size() == 0){
-        productDB.save(new Product("Batata frita", "Porção: 200g", 12.00, new Category("comidas")));
-        productDB.save(new Product("Batata frita com cheddar e bacon", "Porção: 250g", 18.00, new Category("comidas")));
-        productDB.save(new Product("Bolinho de Bacalhau", "Porção: 6 unidades (aproximadamente 180g)", 24.00, new Category("comidas")));
-        productDB.save(new Product("Ceviche de Tilápia", "Porção: 150g (ceviche) + 50g (chips de batata-doce)", 28.00, new Category("comidas")));
-        productDB.save(new Product("Camarão ao Alho e Óleo", "Porção: 150g", 32.00, new Category("comidas")));
-        productDB.save(new Product("Croquete de costela", "Porção: 6 unidades (aproximadamente 180g)", 22.00, new Category("comidas")));
+        //productDB.save(new Product("Batata frita", "Porção: 200g", 12.00, new Category("comidas")));
+        //productDB.save(new Product("Batata frita com cheddar e bacon", "Porção: 250g", 18.00, new Category("comidas")));
+        //productDB.save(new Product("Bolinho de Bacalhau", "Porção: 6 unidades (aproximadamente 180g)", 24.00, new Category("comidas")));
+        //productDB.save(new Product("Ceviche de Tilápia", "Porção: 150g (ceviche) + 50g (chips de batata-doce)", 28.00, new Category("comidas")));
+        //productDB.save(new Product("Camarão ao Alho e Óleo", "Porção: 150g", 32.00, new Category("comidas")));
+        //productDB.save(new Product("Croquete de costela", "Porção: 6 unidades (aproximadamente 180g)", 22.00, new Category("comidas")));
     }
 
 }
