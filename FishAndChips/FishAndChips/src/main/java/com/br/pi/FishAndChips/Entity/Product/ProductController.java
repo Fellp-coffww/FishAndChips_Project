@@ -1,7 +1,6 @@
 package com.br.pi.FishAndChips.Entity.Product;
 
 
-import com.br.pi.FishAndChips.Entity.Category.Category;
 import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,7 @@ import java.util.List;
 @ManagedBean("ControllerProduct")
 @Component
 @SessionScoped
-public class ControllerProduct {
+public class ProductController {
 
 private Product product = new Product();
 
@@ -22,7 +21,7 @@ private List<Product> products;
 
 
 @Autowired
-private ProductDB productDB;
+private ProductRepository productDB;
 
 @PostConstruct
 public void init (){
