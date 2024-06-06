@@ -1,4 +1,4 @@
-package com.br.pi.FishAndChips.Entity.Product;
+package com.br.pi.FishAndChips.Product;
 
 
 import org.primefaces.event.RowEditEvent;

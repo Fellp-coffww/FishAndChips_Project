@@ -1,6 +1,6 @@
-package com.br.pi.FishAndChips.Entity.Product;
+package com.br.pi.FishAndChips.Product;
 
-import com.br.pi.FishAndChips.Entity.Category.Category;
+import com.br.pi.FishAndChips.Category.Category;
 
 import javax.persistence.*;
 

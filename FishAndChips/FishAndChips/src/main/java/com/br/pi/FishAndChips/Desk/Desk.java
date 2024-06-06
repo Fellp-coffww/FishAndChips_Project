@@ -1,4 +1,4 @@
-package com.br.pi.FishAndChips.Entity.Desk;
+package com.br.pi.FishAndChips.Desk;
 
 import java.util.Date;
 

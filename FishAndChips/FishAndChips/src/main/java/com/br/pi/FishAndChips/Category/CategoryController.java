@@ -1,25 +1,37 @@
-package com.br.pi.FishAndChips.Entity.Category;
+package com.br.pi.FishAndChips.Category;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
+import javax.annotation.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import java.util.List;
 
+@Getter
+@Setter
 @Controller
 @RequestMapping("/api/category")
+@ManagedBean("CategoryController")
+@SessionScoped
+@Component
 public class CategoryController {
 
    Category categoryBean;
 
     @Autowired
     CategoryService categoryService;
+
+    String name = "";
+
+    String description = "";
 
 
     @GetMapping("/")
@@ -51,12 +63,14 @@ public class CategoryController {
         }
     }
 
-    public void save(){
 
-        categoryService.save(categoryBean);
+    public void salvar() {
+        categoryBean = new Category(name, description);
+        ModelAndView modelAndView = new ModelAndView();
+
+            categoryService.save(categoryBean);
 
     }
-
 
 
 

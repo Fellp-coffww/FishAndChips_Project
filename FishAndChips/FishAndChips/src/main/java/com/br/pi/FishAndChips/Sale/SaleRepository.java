@@ -1,9 +1,8 @@
-package com.br.pi.FishAndChips.Entity.Sale;
-
+package com.br.pi.FishAndChips.Sale;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SaleItemRepository extends JpaRepository<SaleItem, Integer> {
+public interface SaleRepository extends JpaRepository<Sale, Integer> {
 }
