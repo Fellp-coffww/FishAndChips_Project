@@ -1,6 +1,10 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <head>
@@ -24,13 +28,30 @@
             margin: 10px;
             cursor: pointer;
         }
-        .container {
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 20px;
+        }
+        .menu-item-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            width: 100%;
         }
         .cardapio, .itens {
             border: 1px solid #ccc;
             padding: 10px;
             margin-top: 10px;
+            flex: 1;
+        }
+        .cardapio {
+            margin-right: 10px;
+        }
+        .itens{
+            margin-right: 10px;
         }
         .cardapio div, .itens div {
             margin-bottom: 10px;
@@ -38,16 +59,32 @@
     </style>
 </head>
 <body>
-<h:form>
-    <div class="menu-bar">
-        <img src="logo.png" alt="Logo da Empresa" />
-        <h:commandButton value="Voltar" action="index.xhtml?faces-redirect=true" styleClass="menu-bar button" />
+    <div class="card">
+        <h:form>
+            <p:megaMenu orientation="horizontal" autoDisplay="false">
+                <f:facet name="start">
+                    <p:graphicImage name="img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
+                </f:facet>
+
+                <p:submenu label="Menu" icon="pi pi-bars">
+                    <p:column>
+                        <p:submenu label="Menu">
+                            <p:menuitem value="Inicio" url="home.xhtml"/>
+                            <p:menuitem value="Mesas" url="index.xhtml"/>
+                            <p:menuitem value="Relatório"/>
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+            </p:megaMenu>
+        </h:form>
     </div>
-    <div class="container">
+<h:form>
+    <div class="header">
         <h2>Comanda da Mesa <h:outputText value="#{param.mesa}" /></h2>
-        <div>
-            Número de Pessoas: <h:inputText value="#{mesaBean.numPessoas}" onchange="atualizaCorMesa()" />
-        </div>
+        <div>Número de Pessoas: <h:inputText value="#{comandaBean.numPessoas}" onchange="atualizaCorMesa()" /></div>
+    </div>
+    
+    <div class="menu-item-container">
         <div class="cardapio">
             <h3>Cardápio</h3>
             <h:selectOneMenu value="#{mesaBean.filtroCardapio}" onchange="filtrarCardapio()">
@@ -57,19 +94,20 @@
                 <f:selectItem itemValue="sobremesas" itemLabel="Sobremesas" />
             </h:selectOneMenu>
             <div>
-                Item: <h:outputText value="#{mesaBean.itemSelecionado}" />
+                Item: <h:outputText value="#{comandaBean.itemSelecionado}" />
             </div>
             <div>
-                Valor: <h:outputText value="#{mesaBean.valorItem}" />
+                Valor: <h:outputText value="#{comandaBean.valorItem}" />
             </div>
             <div>
-                Quantidade: <h:inputText value="#{mesaBean.quantidadeItem}" />
-                <h:commandButton value="Adicionar" action="#{mesaBean.adicionarItem}" />
+                Quantidade: <h:inputText value="#{comandaBean.quantidadeItem}" />
+                <h:commandButton value="Adicionar" action="#{comandaBean.adicionarItem}" />
             </div>
         </div>
+        
         <div class="itens">
             <h3>Itens da Comanda</h3>
-            <h:dataTable value="#{mesaBean.itensComanda}" var="item">
+            <h:dataTable value="#{comandaBean.itensComanda}" var="item">
                 <h:column>
                     <f:facet name="header">Quantidade</f:facet>
                     #{item.quantidade}
@@ -84,9 +122,13 @@
                 </h:column>
             </h:dataTable>
         </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px;">
         <h:commandButton value="Voltar" action="index.xhtml?faces-redirect=true" />
-        <h:commandButton value="Finalizar Comanda" action="#{mesaBean.finalizarComanda}" />
+        <h:commandButton value="Finalizar Comanda" action="#{comandaBean.finalizarComanda}" />
     </div>
 </h:form>
 </body>
 </html>
+

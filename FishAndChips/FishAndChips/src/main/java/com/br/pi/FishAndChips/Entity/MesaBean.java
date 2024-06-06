@@ -1,20 +1,32 @@
 package com.br.pi.FishAndChips.Entity;
 
+import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ViewScoped;
 
-@javax.faces.bean.ManagedBean
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@Controller
+@ManagedBean("MesaBean")
 @ViewScoped
-public class MesaBean {
+public class MesaBean implements Serializable {
+        private List<String> mesas;
 
-    private int totalMesas = 40;
-
-    public int getTotalMesas() {
-        return totalMesas;
+    @PostConstruct
+    public void init() {
+        mesas = new ArrayList<>();
+        for (int i = 1; i <= 40; i++) {
+            mesas.add("Mesa " + i);
+        }
     }
 
-    public String redirectToComanda(int mesa) {
-        return "comanda.xhtml?faces-redirect=true&mesa=" + mesa;
+    public List<String> getMesas() {
+        return mesas;
     }
-
-
 }
