@@ -1,58 +1,65 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-<head>
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
     <title>Gerenciamento de Comandas</title>
     <style>
-        .menu-bar {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-        .menu-bar img {
-            height: 50px;
-            vertical-align: middle;
-        }
-        .menu-bar button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            cursor: pointer;
+        body {
+            margin: 0;
+            padding: 0;
         }
         .mesas {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
             margin-top: 20px;
+            justify-content: center;
         }
         .mesa {
             background-color: green;
             color: white;
             border: none;
-            padding: 20px;
-            margin: 10px;
+            border-radius: 5px;
+            padding: 30px;
+            margin: 20px;
             cursor: pointer;
             width: 100px;
             text-align: center;
+            text-decoration: none;
         }
     </style>
-</head>
-<body>
-<h:form>
-    <div class="menu-bar">
-        <img src="logo.png" alt="Logo da Empresa" />
-        <h:commandButton value="Relatórios" action="relatorios.xhtml?faces-redirect=true" styleClass="menu-bar button" />
+</h:head>
+<h:body>
+    <div class="card">
+        <h:form>
+            <p:megaMenu orientation="horizontal" autoDisplay="false">
+                <f:facet name="start">
+                    <p:graphicImage name="img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
+                </f:facet>
+
+                <p:submenu label="Menu" icon="pi pi-bars">
+                    <p:column>
+                        <p:submenu label="Menu">
+                            <p:menuitem value="Inicio" url="home.xhtml"/>
+                            <p:menuitem value="Mesas" url="index.xhtml"/>
+                            <p:menuitem value="Relatório"/>
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+            </p:megaMenu>
+        </h:form>
     </div>
-    <div id="mesas-container" class="MesaBean">
-        <ui:repeat value="#{MesaBean.totalMesas}" var="mesa" varStatus="status">
-            <h:commandButton value="Mesa #{status.index + 1}" styleClass="mesa"
-                             action="#{MesaBean.redirectToComanda(status.index + 1)}" />
+    <h2>Mesas</h2>
+    <div class="mesas">
+        <ui:repeat value="#{MesaBean.mesas}" var="mesa" >
+            <h:commandButton value="#{mesa}" styleClass="mesa"/>
         </ui:repeat>
-    </div>
-</h:form>
-</body>
+    </div>    
+</h:body>
 </html>
+
+
