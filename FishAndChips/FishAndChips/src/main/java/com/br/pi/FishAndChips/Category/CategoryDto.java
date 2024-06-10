@@ -1,4 +1,4 @@
-package com.br.pi.FishAndChips.Entity.Category;
+package com.br.pi.FishAndChips.Category;
 
 public class CategoryDto {
 

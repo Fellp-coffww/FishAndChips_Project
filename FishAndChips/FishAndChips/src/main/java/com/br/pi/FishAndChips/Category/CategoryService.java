@@ -1,9 +1,8 @@
-package com.br.pi.FishAndChips.Entity.Category;
+package com.br.pi.FishAndChips.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.stream.Collectors;
 import java.util.List;
 
@@ -28,6 +27,12 @@ public class CategoryService {
     public void save(Category e){
 
         categoryRepository.save(e);
+
+    }
+
+    public Category findByName(String name){
+
+        return categoryRepository.findByName(name);
 
     }
 

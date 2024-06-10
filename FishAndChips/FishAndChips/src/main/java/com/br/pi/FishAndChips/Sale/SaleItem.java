@@ -1,6 +1,6 @@
-package com.br.pi.FishAndChips.Entity.Sale;
+package com.br.pi.FishAndChips.Sale;
 
-import com.br.pi.FishAndChips.Entity.Product.Product;
+import com.br.pi.FishAndChips.Product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,5 +32,7 @@ public class SaleItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
 
 }

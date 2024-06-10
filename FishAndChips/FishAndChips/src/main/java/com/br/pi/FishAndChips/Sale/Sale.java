@@ -1,12 +1,12 @@
-package com.br.pi.FishAndChips.Entity.Sale;
+package com.br.pi.FishAndChips.Sale;
 
-import com.br.pi.FishAndChips.Entity.Product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 
 
@@ -23,6 +23,8 @@ public class Sale {
 
     private double price;
 
+    @Column(name = "hour")
+    private Date hoursInDesk;
 
     @OneToMany
     private List<SaleItem> saleItemList;

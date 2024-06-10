@@ -1,4 +1,4 @@
-package com.br.pi.FishAndChips.Entity.Category;
+package com.br.pi.FishAndChips.Category;
 
 
 import lombok.AllArgsConstructor;
@@ -25,5 +25,8 @@ public class Category {
     @Column
     private String description;
 
-
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

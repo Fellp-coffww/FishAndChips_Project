@@ -1,4 +1,4 @@
-package com.br.pi.FishAndChips.Entity;
+package com.br.pi.FishAndChips;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
