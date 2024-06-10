@@ -32,5 +32,4 @@ public class Desk {
     private Date exitHour;
 
 
-
 }

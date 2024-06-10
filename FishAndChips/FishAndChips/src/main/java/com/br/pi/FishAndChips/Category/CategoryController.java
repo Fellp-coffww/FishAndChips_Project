@@ -23,7 +23,7 @@ import java.util.List;
 @ManagedBean("CategoryController")
 public class CategoryController {
 
-    Category categoryBean;
+    Category categoryBean = new Category();
 
     @Autowired
     CategoryService categoryService;
@@ -73,14 +73,11 @@ public class CategoryController {
         return "CategoryResult";
     }
 
-
-
-
-    public void salvar() {
-        categoryBean = new Category(name, description);
+    public void save() {
         ModelAndView modelAndView = new ModelAndView();
 
             categoryService.save(categoryBean);
+            categoryBean = new Category();
 
     }
 

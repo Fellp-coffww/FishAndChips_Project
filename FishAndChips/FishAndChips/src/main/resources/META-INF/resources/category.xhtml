@@ -16,7 +16,7 @@
         <h:outputLabel for="descricao" value="Descrição:" />
         <h:inputTextarea id="descricao" value="#{CategoryController.categoryBean.description}" rows="5" cols="30" label="Descrição"/>
 
-        <h:commandButton value="Salvar" action="#{CategoriaBean.save}" />
+        <h:commandButton value="Salvar" action="#{CategoryController.save}" />
     </h:panelGrid>
 
     <h:messages globalOnly="true" layout="table" style="color:red"/>
