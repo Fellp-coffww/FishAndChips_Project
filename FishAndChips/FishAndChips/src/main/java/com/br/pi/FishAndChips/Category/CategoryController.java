@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,11 +21,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/category")
 @ManagedBean("CategoryController")
-@SessionScoped
-@Component
 public class CategoryController {
 
-   Category categoryBean;
+    Category categoryBean;
 
     @Autowired
     CategoryService categoryService;
@@ -48,7 +47,7 @@ public class CategoryController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<CategoryDto> findById(@PathVariable("id") Integer id, @RequestParam(required = false) String name){
 
         if(name == null) {
@@ -62,6 +61,19 @@ public class CategoryController {
 
         }
     }
+    @GetMapping("/search")
+    public String searchCategoryForm(Model model) {
+        model.addAttribute("category", new CategoryDto());
+        return "searchCategory";
+    }
+    @GetMapping("/name")
+    public String findByName(@RequestParam("name") String name, Model model) {
+        CategoryDto category = new CategoryDto().fromEntity(categoryService.findByName(name));
+        model.addAttribute("category", category);
+        return "CategoryResult";
+    }
+
+
 
 
     public void salvar() {
