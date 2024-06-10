@@ -1,5 +1,6 @@
 package com.br.pi.FishAndChips.Product;
 
+import com.br.pi.FishAndChips.Category.Category;
 import com.br.pi.FishAndChips.Category.CategoryRepository;
 import com.br.pi.FishAndChips.Desk.Desk;
 import com.br.pi.FishAndChips.Desk.DeskDto;
@@ -26,10 +27,13 @@ public class ProductService {
     }
 
 
-    public Product findById(int id) {
+    public Product findById(long id) {
         return productRepository.findById(id).get();
     }
 
 
+    public List<ProductDto> findByCategory(Category category){
+       return productRepository.findByCategory(category).stream().map(ent -> new ProductDto().fromEntity(ent)).collect(Collectors.toList());
+    }
 
 }

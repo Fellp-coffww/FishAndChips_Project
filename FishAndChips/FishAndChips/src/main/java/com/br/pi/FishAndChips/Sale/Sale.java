@@ -1,5 +1,6 @@
 package com.br.pi.FishAndChips.Sale;
 
+import com.br.pi.FishAndChips.Desk.Desk;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,9 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @ManyToOne
+    private Desk desk;
+
     private double price;
 
     @Column(name = "hour")
@@ -29,5 +33,7 @@ public class Sale {
     @OneToMany
     private List<SaleItem> saleItemList;
 
+    @Enumerated(EnumType.STRING)
+    private SaleState saleState;
 
 }

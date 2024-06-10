@@ -2,7 +2,7 @@ package com.br.pi.FishAndChips.Category;
 
 public class CategoryDto {
 
-    private String nome;
+    private String name;
 
     public CategoryDto fromEntity(Category category) {
         CategoryDto dto = new CategoryDto();
@@ -11,10 +11,16 @@ public class CategoryDto {
     }
 
     public String getNome() {
-        return nome;
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome(String name) {
+        this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

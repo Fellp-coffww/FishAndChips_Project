@@ -24,6 +24,12 @@ public class CategoryService {
         return categoryRepository.findAll().stream().map(ent -> new CategoryDto().fromEntity(ent)).collect(Collectors.toList());
     }
 
+    public List<Category> findAllCategory(){
+
+        return categoryRepository.findAll();
+    }
+
+
     public void save(Category e){
 
         categoryRepository.save(e);

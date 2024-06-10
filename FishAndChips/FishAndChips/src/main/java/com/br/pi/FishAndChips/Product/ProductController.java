@@ -1,28 +1,20 @@
 package com.br.pi.FishAndChips.Product;
 
-
 import com.br.pi.FishAndChips.Category.Category;
+import com.br.pi.FishAndChips.Category.CategoryDto;
+import com.br.pi.FishAndChips.Category.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.CroppedImage;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.jfree.chart.ChartUtils;
-
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -33,8 +25,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -55,12 +45,17 @@ private Product product = new Product();
 
 private List<ProductDto> products;
 
+private List<Category> categoryDtoList;
+
 private List<byte[]> images = new ArrayList<>();
 
 private byte[] image;
 
 @Autowired
 private ProductService productService;
+
+@Autowired
+private CategoryService categoryService;
 
 private CroppedImage croppedImage;
 
@@ -70,14 +65,10 @@ private UploadedFile originalImageFile;
 @PostConstruct
 public void init (){
 
-    products = productService.findAll();
-    getDynamicImage();
+    categoryDtoList = categoryService.findAllCategory();
 
-    for (int i = 0; i< products.size(); i++){
+    products = productService.findByCategory(categoryDtoList.get(1));
 
-        images.add(products.get(i).getImage());
-
-    }
 }
 
     @PostMapping("/add")
@@ -109,12 +100,8 @@ public void init (){
 
     public void getDynamicImage() {
         products = productService.findAll();
-        image = products.get(0).getImage(); // Método para obter os bytes da imagem
-        //InputStream is = new ByteArrayInputStream(image);
-        //return DefaultStreamedContent.builder()
-          //      .stream(() -> is)
-            //    .contentType("image/png")
-              //  .build();
+        //image = products.get(0).getImage(); // Método para obter os bytes da imagem
+
     }
 
 
