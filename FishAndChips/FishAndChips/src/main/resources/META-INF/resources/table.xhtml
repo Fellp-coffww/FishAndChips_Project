@@ -43,6 +43,16 @@
                     </f:facet>
                 </p:cellEditor>
             </p:column>
+            <p:column headerText="Categoria">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{product.category}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{product.category}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
             <p:column style="width:6rem">
                 <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>
             </p:column>

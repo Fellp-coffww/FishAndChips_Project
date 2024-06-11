@@ -1,4 +1,4 @@
-package com.br.pi.FishAndChips.Sale;
+package com.br.pi.FishAndChips.SaleItem;
 
 import org.springframework.stereotype.Service;
 

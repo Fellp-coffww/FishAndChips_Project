@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class SaleItem {
 
     @Column
-    private int quantity;
+    private int quantity = 0;
 
     @Column
     private double price;
@@ -25,7 +25,7 @@ public class SaleItem {
     @JoinColumn(name = "sale_id")
     private Sale sale;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
@@ -34,5 +34,20 @@ public class SaleItem {
     private Long id;
 
 
+    public void addQuantityToProduct(){
+
+        quantity +=1;
+
+    }
+
+    public void decreaseQuantityToProduct(){
+
+        if (quantity >1) {
+            quantity -= 1;
+        }
+        else {
+            quantity = 1;
+        }
+    }
 
 }

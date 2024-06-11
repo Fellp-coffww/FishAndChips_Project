@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>Category Result</title>
 </head>
 <body>
-$END$
+<h1>Category Result</h1>
+<div th:if="${category != null}">
+    <p>ID: <span th:text="${category.id}"></span></p>
+    <p>Name: <span th:text="${category.name}"></span></p>
+</div>
+<div th:if="${category == null}">
+    <p>Category not found.</p>
+</div>
+<a th:href="@{/api/category/name/{name}">Search again</a>
 </body>
 </html>

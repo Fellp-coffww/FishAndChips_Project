@@ -48,7 +48,7 @@ public class CategoryController {
 
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<CategoryDto> findById(@PathVariable("id") Integer id, @RequestParam(required = false) String name){
+    public ResponseEntity<CategoryDto> findById(@PathVariable("id") Long id, @RequestParam(required = false) String name){
 
         if(name == null) {
             CategoryDto cat = new CategoryDto().fromEntity(categoryService.findById(id));

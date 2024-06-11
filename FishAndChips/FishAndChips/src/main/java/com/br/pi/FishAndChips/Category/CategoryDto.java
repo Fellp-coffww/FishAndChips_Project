@@ -1,22 +1,24 @@
 package com.br.pi.FishAndChips.Category;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CategoryDto {
 
     private String name;
 
     public CategoryDto fromEntity(Category category) {
         CategoryDto dto = new CategoryDto();
-        dto.setNome(category.getName());
+        dto.setName(category.getName());
         return dto;
     }
 
-    public String getNome() {
-        return name;
-    }
-
-    public void setNome(String name) {
-        this.name = name;
-    }
 
     @Override
     public String toString() {

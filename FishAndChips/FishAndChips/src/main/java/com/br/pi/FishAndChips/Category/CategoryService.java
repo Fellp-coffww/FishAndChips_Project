@@ -12,11 +12,11 @@ public class CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    public Category findById(Integer id) {
+    public Category findById(Long id) {
         return categoryRepository.findById(id).get();
     }
 
-    public Category findByIdAndName(Integer id, String name) {
+    public Category findByIdAndName(Long id, String name) {
         return categoryRepository.findByIdAndName(id, name);
     }
 
@@ -27,6 +27,7 @@ public class CategoryService {
     public List<Category> findAllCategory(){
 
         return categoryRepository.findAll();
+
     }
 
 
