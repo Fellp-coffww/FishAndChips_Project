@@ -7,10 +7,12 @@ import com.br.pi.FishAndChips.Desk.DeskDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.faces.bean.ApplicationScoped;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@ApplicationScoped
 public class ProductService {
 
 
@@ -32,8 +34,22 @@ public class ProductService {
     }
 
 
-    public List<ProductDto> findByCategory(Category category){
-       return productRepository.findByCategory(category).stream().map(ent -> new ProductDto().fromEntity(ent)).collect(Collectors.toList());
+    public List<ProductDto> findByCategory(Category category) {
+        return productRepository.findByCategory(category).stream().map(ent -> new ProductDto().fromEntity(ent)).collect(Collectors.toList());
     }
+
+    public List<ProductDto> findByCategoryName(String category){
+
+        return productRepository.findByCategoryName(category).stream().map(ent -> new ProductDto().fromEntity(ent)).collect(Collectors.toList());
+
+    }
+    public List<Product> findByCategoryNameTypeProduct(String category){
+
+        return productRepository.findByCategoryName(category);
+
+    }
+
+    public List<Product> findAllTypeProducts(){return productRepository.findAll();}
+
 
 }

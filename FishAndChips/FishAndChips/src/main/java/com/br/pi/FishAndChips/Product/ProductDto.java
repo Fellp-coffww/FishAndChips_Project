@@ -21,14 +21,20 @@ public class ProductDto {
 
     private String description;
 
-    private String category;
+    private Category category;
+
+    private  byte[] image;
+
+    private long id;
 
     public ProductDto fromEntity(Product product) {
         ProductDto dto = new ProductDto();
         dto.setName(product.getName());
         dto.setPrice(product.getPrice());
         dto.setDescription(product.getDescription());
-        dto.setCategory(product.getCategory().getName());
+        dto.setCategory(product.getCategory());
+        dto.setImage(product.getImage());
+        dto.setId(product.getId());
         return dto;
     }
 

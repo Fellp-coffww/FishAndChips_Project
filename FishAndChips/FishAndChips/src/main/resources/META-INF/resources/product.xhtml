@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Cadastro de Produto</title>
+</h:head>
+<h:body>
+    <h:form enctype="multipart/form-data">
+        <h:panelGrid columns="2" columnClasses="label, value">
+            <h:outputLabel for="name" value="Nome:" />
+            <p:inputText id="name" value="#{ProductController.product.name}" />
+
+            <h:outputLabel for="price" value="Preço:" />
+            <p:inputNumber id="price" value="#{ProductController.product.price}" />
+
+            <h:outputLabel for="description" value="Descrição:" />
+            <p:inputTextarea id="description" value="#{ProductController.product.description}" rows="5" />
+            <h:outputLabel for="image" value="Imagem:" />
+            <p:fileUpload id="image" value="#{ProductController.originalImageFile}" mode="simple" skinSimple="true"/>
+            <h:outputLabel for="category" value="Categoria:" />
+            <p:selectOneMenu id="category" value="#{ProductController.categoryName}">
+                <f:selectItems value="#{ProductController.categoryNameList}" />
+            </p:selectOneMenu>
+        </h:panelGrid>
+
+        <p:commandButton value="Salvar" action="#{ProductController.salvarProduto()}" ajax="false" />
+    </h:form>
+</h:body>
+</html>

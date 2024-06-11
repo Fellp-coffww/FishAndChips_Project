@@ -1,4 +1,4 @@
-package com.br.pi.FishAndChips.Entity;
+package com.br.pi.FishAndChips;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
