@@ -12,7 +12,14 @@
             border-radius: 5px;
         }
         body, h2, h3, h4, h6, .product-item-content {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
+            font-size: 20px;
+        }
+        h7{
+
+            font-family: system-ui;
+            font-size: 12px;
+
         }
 
         .card {
@@ -55,7 +62,7 @@
             text-align: center;
             padding: 1rem 0;
             background-color: white;
-            height: 280px;
+            height: 450px;
             font-family: Arial, sans-serif;
         }
 
@@ -83,6 +90,7 @@
 
         h2, h3 {
             margin-bottom: 20px;
+            font-weight: bold;
         }
 
         .btn-container {
@@ -91,7 +99,7 @@
 
         }
 
-        .btn-container h\\:commandButton {
+        .btn-container {
             margin: 0 10px;
         }
 
@@ -125,110 +133,124 @@
 </h:head>
 
 <h:body>
-    <div class="card">
-        <h:form>
-            <p:megaMenu orientation="horizontal" autoDisplay="false">
-                <f:facet name="start">
-                    <p:graphicImage name="img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
-                </f:facet>
-                <p:submenu label="Menu" icon="pi pi-bars">
-                    <p:column>
-                        <p:submenu label="Menu">
-                            <p:menuitem value="Inicio" url="home.xhtml"/>
-                            <p:menuitem value="Mesas" url="index.xhtml"/>
-                            <p:menuitem value="Relatório"/>
-                        </p:submenu>
-                    </p:column>
-                </p:submenu>
-            </p:megaMenu>
-        </h:form>
-    </div>
 
-    <h:form id="form">
+
+    <h:form id="form2">
         <h2>Comanda da Mesa <h:outputText value="#{param.mesa}"/></h2>
         <div class="filter-container">
             <div class="select-container">
                 <label for="group">Filtrar produtos:</label>
-                <p:selectOneMenu id="group" value="#{DeskController.category}">
+                <p:selectOneMenu id="group" value="#{saleController.category}">
                     <f:selectItem itemLabel="Seleciona a categoria do produto: " itemValue=""/>
-                    <f:selectItems value="#{DeskController.categories}"/>
+                    <f:selectItems value="#{saleController.categories}"/>
+                    <p:ajax event="change" listener="#{saleController.updateProductsByCategoryName}" update="@form"/>
                 </p:selectOneMenu>
             </div>
             <div class="input-container">
                 <label  for="numPessoas">Número de Pessoas:</label>
-                <h:inputText id="numPessoas" value="#{SaleController.desk.occupantNumber}" />
+                <h:inputText id="numPessoas" value="#{saleController.desk.occupantNumber}" />
             </div>
         </div>
 
+        <!--- Bloco de seleção de produtos (cardápio) -->
+
         <div class="card">
-            <p:carousel value="#{SaleController.activeSaleItemList}" var="product" numVisible="3" numScroll="3"
-                        responsiveOptions="#{SaleController.responsiveOptions}">
+            <p:carousel value="#{saleController.activeSaleItemList}" var="saleitem" numVisible="3" numScroll="3"
+                        responsiveOptions="#{saleController.responsiveOptions}">
                 <f:facet name="header">
                 </f:facet>
                 <div class="product-item">
-                    <div class="product-item-content">
+                    <div class="product-item-content" >
                         <div class="mb-3">
-                            <p:graphicImage value="#{product.product.image}" styleClass="product-image"
-                            />
+                            <p:graphicImage value="/image/#{saleitem.product.id}" height="200px" width="200px" styleClass="product-image"/>
                         </div>
-                        <div>
-                            <h4 class="mb-1">#{product.product.name}</h4>
-                            <h6 class="mt-0 mb-3">
-                                <h:outputText value="#{product.price}" style="font-size: 24px;">
+                        <div style="text-align: center;">
+                            <h4 class="product-description" style="margin: 5px 0; color: #221f1f;">#{saleitem.product.name}</h4>
+                            <h6 class="product-description" style="color: #221f1f; margin-top: 5px; margin: 5px 0;">
+                                <h:outputText  value="#{saleitem.price}" style="font-size: 24px; margin: 0; color: #495057">
                                     <f:convertNumber type="currency" pattern="¤#0" currencySymbol="R$" minFractionDigits="2" maxFractionDigits="2"/>
                                 </h:outputText>
                             </h6>
-                            <div class="mt-5">
-                                <p:commandButton type="submit" icon="pi pi-minus" styleClass="rounded-button ui-button-flat" actionListener="#{product.decreaseQuantityToProduct}" update="output" />
-                                <h:outputText id="output" value="#{product.quantity}"/>
-                                <p:commandButton type="submit" icon="pi pi-plus" styleClass="rounded-button ui-button-flat" actionListener="#{product.addQuantityToProduct}" update="output" />
+                            <div class="mt-5" style="margin-top: 10px;">
+                                <p:commandButton type="submit" icon="pi pi-minus" styleClass="rounded-button ui-button-flat" actionListener="#{saleitem.decreaseQuantityToProduct}" update="output" style="margin: 0 5px;" />
+                                <h:outputText class="product-name" id="output" value="#{saleitem.quantity}" style="margin: 0 5px; color: #495057;"/>
+                                <p:commandButton type="submit" icon="pi pi-plus" styleClass="rounded-button ui-button-flat" actionListener="#{saleitem.increaseQuantityToProduct}" update="output" style="margin: 0 5px;" />
                             </div>
-                            <div>
-                                <p:commandButton type="submit" value="Adicionar" styleClass="ui-button-success" actionListener="#{SaleController.addProduct(product.product.id)}"/>
+                            <div style="margin-top: 10px;">
+                                <p:commandButton update ="form2:comandaa"  type="submit" value="Adicionar" styleClass="ui-button-success" actionListener="#{saleController.addProduct(saleitem.id)}" style="margin: 0;"/>
                             </div>
                         </div>
                     </div>
                 </div>
             </p:carousel>
         </div>
-    </h:form>
-    <h:form>
-        <h3>Itens da Comanda</h3>
+            
 
-        <div class="card">
-            <h:form>
-                <p:dataScroller value="#{SaleController.saleItemList}" var="product" chunkSize="10">
-                    <f:facet name="header">
-                    </f:facet>
+        <!--- Bloco de seleção de itens da comanda  -->
 
-                    <div class="product">
-                        <div class="product-list-item p-5">
-                            <p:graphicImage value="#{product.product.image}"/>
-                            <div class="product-list-detail">
-                                <div class="product-name">#{product.product.name}</div>
-                                <div>
-                                    <h:outputText value="Quantidade: "/>
-                                    <h:outputText value= "#{product.quantity}"/>
-                                </div>
-                                <i class="pi pi-tag product-category-icon"/><span
-                                    class="product-category">#{product.product.category.name}</span>
+        <h3>Itens da Comanda </h3>
+
+        <div id="comanda" style="padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 10px;">
+            <p:dataView id="comandaa" var="saleitem" value="#{saleController.saleItemList}" rows="12" paginator="false"
+                        rowsPerPageTemplate="6,12,16"
+                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                        styleClass="product-dataView">
+
+                <p:dataViewGridItem>
+                    <div class="product-grid-item card border-1" style="border-radius: 10px; margin-bottom: 20px;">
+                        <div class="product-grid-item-top" style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+                        </div>
+                        <div class="product-grid-item-content" style="padding: 10px; text-align: center;">
+                            <p:graphicImage value="image/#{saleitem.product.id}" height="100px" width="100px" library="demo" style="border-radius: 5px;"/>
+                            <div class="product-name" style="font-weight: bold; margin-top: 10px;">#{saleitem.product.name}</div>
+                            <div class="product-category" style="color: #888; margin-top: 5px;">
+                                <i class="pi pi-tag product-category-icon" style="margin-right: 5px;"></i>
+                                #{saleitem.product.category}
                             </div>
-                            <div class="product-list-action">
-                                <h:outputText value="#{product.price}" styleClass="product-price">
-                                    <f:convertNumber currencySymbol="$" type="currency"/>
-                                </h:outputText>
-                                <p:commandButton value="Excluir produto" icon="pi pi-trash" styleClass="ui-button-danger">
-                                </p:commandButton>
+                            <div class="product-description" style="color: #888; margin-top: 5px;">#{saleitem.product.description}</div>
+                            <div> 
+                                <h:outputText value="Quantidade: " styleClass="product-price" style="color: #888; margin-top: 10px;"></h:outputText>
+                                <h:outputText value="#{saleitem.quantity}" styleClass="product-price" style="color: #888; margin-top: 5px;"></h:outputText>
                             </div>
                         </div>
+                        <div class="product-grid-item-bottom" style="padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+                            <h:outputText value="#{saleitem.price}" styleClass="product-price" style="font-size: 1.2em; font-weight: bold;">
+                                <f:convertNumber currencySymbol="R$" type="currency"/>
+                            </h:outputText>
+                            <p:commandButton icon="pi pi-trash"  type="submit"  actionListener="#{saleController.decreaseProduct(saleitem.id)}" styleClass="rounded-button ui-button-danger" update="form2:comandaa" />
+                        </div>
                     </div>
-                </p:dataScroller>
-            </h:form>
+                </p:dataViewGridItem>
+
+                <p:dataViewListItem>
+                    <div class="product-list-item" style="display: flex; align-items: center; margin-bottom: 20px; padding: 10px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <p:graphicImage value="image/#{saleitem.product.id}" height="100px" width="100px" style="border-radius: 5px;"/>
+                        <div class="product-list-detail" style="flex-grow: 1; padding-left: 20px;">
+                            <div class="product-name" style="font-weight: bold;">#{saleitem.product.name}</div>
+                            <div class="product-description" style="color: #888; margin-top: 5px;">#{saleitem.product.description}</div>
+                            <div>
+                                <h:outputText value="Quantidade: "/> 
+                                <h:outputText value= "#{saleitem.quantity}"/>
+                            </div>
+                            <i class="pi pi-tag product-category-icon" style="margin-right: 5px;"/><span
+                                class="product-category">#{saleitem.product.category}</span>
+                        </div>
+                        <div class="product-list-action" style="display: flex; flex-direction: column; align-items: flex-end;">
+                            <h:outputText value="#{saleitem.price}" styleClass="product-price" style="font-size: 1.2em; font-weight: bold;">
+                                <f:convertNumber currencySymbol="R$" type="currency"/>
+                            </h:outputText>
+                            <p:commandButton icon="pi pi-trash"  type="submit"  actionListener="#{saleController.decreaseProduct(saleitem.id)}" styleClass="rounded-button ui-button-danger" update="form2:comandaa" />
+                        </div>
+                    </div>
+                </p:dataViewListItem>
+            </p:dataView>
         </div>
 
+
         <div class="btn-container">
-            <h:commandButton type="button"  value="Voltar" action="index.xhtml?faces-redirect=true" />
-            <h:commandButton type="button" value="Finalizar Comanda" action="#{SaleController.endCommand}" styleClass="ui-button-danger"/>
+            <p:commandButton type="button"  value="Voltar" action="index.xhtml?faces-redirect=true" />
+            <p:commandButton type="submit" value="Finalizar Comanda" action="#{saleController.endCommand}" styleClass="ui-button-danger"/>
         </div>
     </h:form>
 </h:body>

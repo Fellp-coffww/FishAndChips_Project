@@ -23,7 +23,7 @@ public class ProductDto {
 
     private Category category;
 
-    private  byte[] image;
+    private  String image;
 
     private long id;
 

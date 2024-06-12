@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 import javax.persistence.*;
-import java.sql.Blob;
+import java.util.Base64;
+
 
 @Entity
 @Getter
@@ -29,13 +31,18 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @Lob
-    @Column(name = "image")
-    private byte[] image;
+    @Column(name = "image",columnDefinition = "varchar" )
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-
+    public Product(String name, double price, String description, String image, Category category) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.image = image;
+        this.category = category;
+    }
 }

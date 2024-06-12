@@ -34,20 +34,42 @@ public class SaleItem {
     private Long id;
 
 
-    public void addQuantityToProduct(){
+    public void addQuantityToProduct(int increseValue){
+        this.quantity = increseValue + this.quantity ;
 
-        quantity +=1;
+    }
+    public void updatePrice(double price){
+
+        price = price * this.quantity;
+        this.price = price;
+
 
     }
 
+    public void increaseQuantityToProduct(){
+        this.quantity +=1;
+    }
+
+
     public void decreaseQuantityToProduct(){
 
-        if (quantity >1) {
-            quantity -= 1;
+        if (this.quantity > 1) {
+            this.quantity -= 1;
         }
         else {
-            quantity = 1;
+            this.quantity = 1;
         }
+    }
+
+    public SaleItem clone(){
+
+        return new SaleItem(this.quantity, this.price, this.sale, this.product,this.id);
+
+    }
+
+    public void teste(){
+
+        System.out.println("qwertyui");
     }
 
 }

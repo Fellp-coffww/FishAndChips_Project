@@ -7,6 +7,29 @@
 
     <display-name>Nome da Aplicação</display-name>
 
+    <!-- Configuração do FacesServlet -->
+    <servlet>
+        <servlet-name>FacesServlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FacesServlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
+    <!-- Configuração do ImageServlet -->
+    <servlet>
+        <servlet-name>ImageServlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ImageServlet</servlet-name>
+        <url-pattern>/image</url-pattern>
+    </servlet-mapping>
+
     <!-- Mapeamento de MIME type -->
     <mime-mapping>
         <extension>pdf</extension>

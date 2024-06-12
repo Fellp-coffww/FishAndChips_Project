@@ -34,8 +34,8 @@ public class ProductService {
     }
 
 
-    public List<ProductDto> findByCategory(Category category) {
-        return productRepository.findByCategory(category).stream().map(ent -> new ProductDto().fromEntity(ent)).collect(Collectors.toList());
+    public List<Product> findByCategory(Category category) {
+        return productRepository.findByCategory(category);
     }
 
     public List<ProductDto> findByCategoryName(String category){
@@ -49,7 +49,20 @@ public class ProductService {
 
     }
 
+    public List<Product> findAllByCategory(Category category){
+        return productRepository.findAllByCategory(category);
+    }
+
+
+
+
+
     public List<Product> findAllTypeProducts(){return productRepository.findAll();}
 
 
+    public List<Product> findProductsByCategoryName(String category) {
+
+        return productRepository.findProductsByCategoryName(category);
+
+    }
 }
