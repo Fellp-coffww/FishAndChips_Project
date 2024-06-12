@@ -38,6 +38,7 @@ import java.nio.file.StandardCopyOption;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @ManagedBean("ProductController")
@@ -50,56 +51,55 @@ import java.util.List;
 @RequestScoped
 public class ProductController implements Serializable {
 
-private Product product = new Product();
+    private Product product = new Product();
 
-private List<ProductDto> products;
+    private List<Product> products;
 
-private List<Category> categoryList;
+    private List<Category> categoryList;
 
-private List<String> categoryNameList = new ArrayList<>();
+    private List<String> categoryNameList = new ArrayList<>();
 
-private Category category = new Category();
-
-
-private String categoryName;
+    private Category category = new Category();
 
 
-@Inject
-private ServletContext servletContext;
+    private String categoryName;
 
-@Inject
-private ProductService productService;
+    private UploadedFile originalImageFile;
 
-@Inject
-private CategoryService categoryService;
+    @Inject
+    private ServletContext servletContext;
+
+    @Inject
+    private ProductService productService;
+
+    @Inject
+    private CategoryService categoryService;
+
+    @Autowired
+    ProductRepository productRepository;
+    @PostConstruct
+    public void init() {
+
+        categoryList = categoryService.findAllCategory();
+        products = productService.findAllTypeProducts();
 
 
+        for (Category c : categoryList) {
 
-private UploadedFile originalImageFile;
+            categoryNameList.add(c.getName());
 
-
-@PostConstruct
-public void init (){
-
-    categoryList = categoryService.findAllCategory();
-
-    for (Category c: categoryList){
-
-        categoryNameList.add(c.getName());
+        }
 
     }
 
-
-}
     @PostMapping("/add")
-    public String addImagePost(HttpServletRequest request, @RequestParam("image") MultipartFile file) throws IOException, SerialException, SQLException
-    {
+    public String addImagePost(HttpServletRequest request, @RequestParam("image") MultipartFile file) throws IOException, SerialException, SQLException {
         byte[] bytes = file.getBytes();
         Blob blob = new SerialBlob(bytes);
 
         Product product = new Product();
         product.getClass();
-        productService  .create(product);
+        productService.create(product);
         return "redirect:/";
     }
 
@@ -110,14 +110,17 @@ public void init (){
         if (originalImageFile != null) {
             try (InputStream input = originalImageFile.getInputStream()) {
                 byte[] imageBytes = input.readAllBytes();
-                product.setImage(imageBytes);
+                product.setImage(Base64.getEncoder().encodeToString(imageBytes));
             }
-            productService.create(product);
+
+            Product productToBase = new Product(product.getName(),product.getPrice(),product.getDescription(), product.getImage(),product.getCategory());
+
+            productService.create(productToBase);
         }
         FacesMessage msg = new FacesMessage("Produto salvo!");
         FacesContext.getCurrentInstance().addMessage(null, msg);
         return null;
     }
 
+
 }
-    

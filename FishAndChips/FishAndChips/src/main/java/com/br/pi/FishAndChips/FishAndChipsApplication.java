@@ -16,12 +16,14 @@ import javax.servlet.ServletException;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.jsf.el.SpringBeanFacesELResolver;
 
 import com.sun.faces.config.ConfigureListener;
 import com.sun.faces.config.FacesInitializer;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.br.pi.FishAndChips")
 public class FishAndChipsApplication implements ServletContextInitializer{
 
 	public static void main(String[] args) {
