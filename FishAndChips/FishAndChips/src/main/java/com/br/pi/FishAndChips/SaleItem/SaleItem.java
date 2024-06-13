@@ -1,6 +1,7 @@
-package com.br.pi.FishAndChips.Sale;
+package com.br.pi.FishAndChips.SaleItem;
 
 import com.br.pi.FishAndChips.Product.Product;
+import com.br.pi.FishAndChips.Sale.Sale;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -67,9 +68,10 @@ public class SaleItem {
 
     }
 
-    public void teste(){
-
-        System.out.println("qwertyui");
+    public SaleItem(int quantity, double price, Sale sale, Product product) {
+        this.quantity = quantity;
+        this.price = price;
+        this.sale = sale;
+        this.product = product;
     }
-
 }

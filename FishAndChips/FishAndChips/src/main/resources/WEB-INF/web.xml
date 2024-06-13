@@ -5,7 +5,7 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <display-name>Nome da Aplicação</display-name>
+    <display-name>Fish and Fish</display-name>
 
     <!-- Configuração do FacesServlet -->
     <servlet>
@@ -55,5 +55,8 @@
         <extension>js</extension>
         <mime-type>application/javascript</mime-type>
     </mime-mapping>
-
+    <context-param>
+        <param-name>javax.faces.CONFIG_FILES</param-name>
+        <param-value>/WEB-INF/faces-config.xml</param-value>
+    </context-param>
 </web-app>

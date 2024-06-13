@@ -16,9 +16,22 @@ public class DeskService {
         return deskRepository.findAll().stream().map(ent -> new DeskDto().fromEntity(ent)).collect(Collectors.toList());
     }
 
+    public List<Desk> findAllTypeDesk(){
+        return deskRepository.findAll();
+    }
+
 
     public Desk findById(long id) {
         return deskRepository.findById(id).get();
+    }
+
+    public void create(Desk desk){
+        deskRepository.save(desk);
+    }
+
+    public void update(Desk desk){
+
+        deskRepository.save(desk);
     }
 
 }

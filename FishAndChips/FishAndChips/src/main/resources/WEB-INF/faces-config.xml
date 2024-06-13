@@ -8,4 +8,16 @@
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
     </application>
 
+        <navigation-rule>
+            <from-view-id>/index.xhtml</from-view-id>
+            <navigation-case>
+                <from-outcome>comanda</from-outcome>
+                <to-view-id>/Comanda.xhtml</to-view-id>
+            </navigation-case>
+        </navigation-rule>
+
+    <lifecycle>
+        <phase-listener>com.br.pi.FishAndChips.Sale.SaleController</phase-listener>
+    </lifecycle>
+
 </faces-config>
