@@ -4,6 +4,7 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+    <title>Comanda</title>
     <style>
         .outputTextWithBorder {
             border: 1px solid rgb(128, 128, 128); /* Adiciona uma borda de 1px preta */
@@ -128,15 +129,34 @@
             align-items: center;
             margin-bottom: 20px;
         }
+        .free-status {
+            background-color: #689f38;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .busy-status {
+             background-color: red;
+             color: white;
+             padding: 5px;
+             border-radius: 10px;
+         }
 
+        .payment-status {
+            background-color: orange;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
     </style>
 </h:head>
 
 <h:body>
 
-
     <h:form id="form2">
-        <h2>Comanda da Mesa <h:outputText value="#{param.mesa}"/></h2>
+        <p:growl id="growl" showDetail="true" />
+        <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+        <h2>Comanda da Mesa <h:outputText value="#{saleController.deskId}"/></h2>
         <div class="filter-container">
             <div class="select-container">
                 <label for="group">Filtrar produtos:</label>
@@ -149,6 +169,16 @@
             <div class="input-container">
                 <label  for="numPessoas">Número de Pessoas:</label>
                 <h:inputText id="numPessoas" value="#{saleController.desk.occupantNumber}" />
+            </div>
+            <div class="input-container" id="state">
+                <label  for="numPessoas">Status da mesa:</label>
+                <h:outputText id="StatusMesaLivre"  value="Livre"  rendered="#{saleController.desk.tableState == 'FREE'}" styleClass="free-status"/>
+                <h:outputText id="StatusMesaOcupado"  value="Ocupada"  rendered="#{saleController.desk.tableState == 'BUSY'}" styleClass="busy-status"/>
+                <h:outputText id="StatusMesaPagamento"  value="Aguardando Pagamento"  rendered="#{saleController.desk.tableState == 'WAINTING_PAYMENT'}" styleClass="payment-status"/>
+            </div>
+            <div class="input-container">
+                <label  for="numPessoas">Abertura de comanda</label>
+                <p:commandButton type="submit" id="AbrirMesa"  value="Abrir comanda"  actionListener="#{saleController.openSale}" disabled="#{saleController.desk.tableState == 'BUSY'}" styleClass="ui-button-raised ui-button-success" update="@form growl"/>
             </div>
         </div>
 
@@ -177,7 +207,7 @@
                                 <p:commandButton type="submit" icon="pi pi-plus" styleClass="rounded-button ui-button-flat" actionListener="#{saleitem.increaseQuantityToProduct}" update="output" style="margin: 0 5px;" />
                             </div>
                             <div style="margin-top: 10px;">
-                                <p:commandButton update ="form2:comandaa"  type="submit" value="Adicionar" styleClass="ui-button-success" actionListener="#{saleController.addProduct(saleitem.id)}" style="margin: 0;"/>
+                                <p:commandButton disabled="#{saleController.desk.tableState == 'FREE' or saleController.desk.tableState == 'WAINTING_PAYMENT'}" update ="form2:comandaa"  type="submit" value="Adicionar" styleClass="ui-button-success" actionListener="#{saleController.addProduct(saleitem.id)}" style="margin: 0;"/>
                             </div>
                         </div>
                     </div>
@@ -219,6 +249,17 @@
                                 <f:convertNumber currencySymbol="R$" type="currency"/>
                             </h:outputText>
                             <p:commandButton icon="pi pi-trash"  type="submit"  actionListener="#{saleController.decreaseProduct(saleitem.id)}" styleClass="rounded-button ui-button-danger" update="form2:comandaa" />
+
+                            <p:dialog header="Pick Color" widgetVar="dlg" minHeight="50" width="350" showEffect="fade" modal="true">
+                                <div style="height: 300px">
+                                    <p:outputLabel for="@next" value="Pick Color:" />
+                                    <p:colorPicker id="dialogPicker" clearButton="true" closeButton="true" alpha="false" />
+                                </div>
+                                <f:facet name="footer">
+                                    <p:commandButton type="button" value="Close" style="width: 5rem" onclick="PF('dlg').hide()"/>
+                                </f:facet>
+
+                            </p:dialog>
                         </div>
                     </div>
                 </p:dataViewGridItem>

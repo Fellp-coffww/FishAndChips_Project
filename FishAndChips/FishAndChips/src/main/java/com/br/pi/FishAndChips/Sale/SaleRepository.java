@@ -15,4 +15,9 @@ List<Sale> findBySaleState(SaleState saleState);
 
 Sale findSaleBySaleStateAndId(SaleState saleState, Long id);
 
+
+Sale findSaleById(Long id);
+
+List<Sale> findByDeskIdAndSaleState(Long deskId, SaleState saleState);
+
 }

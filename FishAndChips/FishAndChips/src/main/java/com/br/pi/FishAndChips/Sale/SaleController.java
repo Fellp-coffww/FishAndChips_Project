@@ -1,39 +1,41 @@
 package com.br.pi.FishAndChips.Sale;
 
 import com.br.pi.FishAndChips.Category.Category;
-import com.br.pi.FishAndChips.Category.CategoryDto;
 import com.br.pi.FishAndChips.Category.CategoryService;
 import com.br.pi.FishAndChips.Desk.Desk;
+import com.br.pi.FishAndChips.Desk.DeskService;
 import com.br.pi.FishAndChips.Desk.DeskState;
 import com.br.pi.FishAndChips.Product.*;
+import com.br.pi.FishAndChips.SaleItem.SaleItem;
+import com.br.pi.FishAndChips.SaleItem.SaleItemService;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.ResponsiveOption;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.inject.Singleton;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
 
 
 @ManagedBean
 @Controller
 @Getter
 @Setter
-public class SaleController {
+@ViewScoped
+@Named
+public class SaleController implements Serializable {
 
     @Autowired
     SaleService saleService;
@@ -44,11 +46,24 @@ public class SaleController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    DeskService deskService;
 
+    @Autowired
+    SaleItemService saleItemService;
+
+    //Entidades temporárias
+
+    private long deskId = 0;
 
     private String category;
 
-    private Desk desk = new Desk(1, DeskState.FREE,9,new Date(),new Date());
+    private Desk desk;
+
+    private Sale sale;
+
+
+   //Listas
 
     private List<Category> categories = new ArrayList<>();
 
@@ -58,30 +73,60 @@ public class SaleController {
 
     private List<SaleItem> activeSaleItemList = new ArrayList<>();
 
-    private Sale sale = new Sale();
+    private List<Product> products = new ArrayList<>();
 
-    private List<Product> products;
-
-    private byte[] image;
-
-    private List<Image> imagesList = new ArrayList<>();
 
     @PostConstruct
     public void init(){
 
+        if (deskId != 0) {
+            desk = deskService.findById(deskId);
 
-        categories = categoryService.findAllTyprCategory();
-        products = productService.findAllTypeProducts();
-        long temp = 0;
+            if(desk.getTableState() == DeskState.BUSY){
 
-        for(Product product:products){
-            activeSaleItemList.add(new SaleItem(1,product.getPrice(),sale,product,temp));
-            temp +=1;
+                sale = saleService.findSalesByDeskIdAndState(deskId,SaleState.CREATED);
+                saleItemList = saleItemService.findBySaleId(sale.getId());
+
+            }
+            else {
+
+                if(saleItemList!=null) {
+
+                    saleItemList.clear();
+
+                }}
+
         }
 
+        if(categories.isEmpty()){
 
+            categories = categoryService.findAllTyprCategory();
+        }
+
+        if (products.isEmpty()){
+
+            products = productService.findAllTypeProducts();
+
+        }
+
+       if(activeSaleItemList.isEmpty() && deskId != 0){
+        long temp = 0;
+            for(Product product:products){
+                activeSaleItemList.add(new SaleItem(1,product.getPrice(),sale,product,temp));
+                temp +=1;
+            }
+       }
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Sale> findById(@PathVariable("id") Long id){
+
+            Sale sale = saleService.findSaleById(id);
+            return new ResponseEntity<Sale>(sale, HttpStatus.OK);
 
     }
+
    public void updateProductsByCategoryName(){
 
     long temp = 0;
@@ -96,39 +141,38 @@ public class SaleController {
                 temp +=1;
             }
         }
-
     }
 
-    public void addProductToSaleItemList(String id){
-
-        Long longId = Long.parseLong(id);
-        for (Product product : products) {
-            if (product.getId() == longId){
-            System.out.println(product.getName());
-            break;
-            }
-        }
-    }
 
     public void addProduct(String id){
 
         int temp = Integer.parseInt(id);
         boolean tempBool = false;
 
-        for (SaleItem saleItem: saleItemList) {
+        for (int i = 0; i < saleItemList.size(); i++) {
 
-            if (saleItem.getProduct().equals(activeSaleItemList.get(temp).getProduct())){
+            if (saleItemList.get(i).getProduct().equals(activeSaleItemList.get(temp).getProduct())){
 
-                saleItem.addQuantityToProduct(activeSaleItemList.get(temp).getQuantity());
-                saleItem.updatePrice(activeSaleItemList.get(temp).getProduct().getPrice());
+                saleItemList.get(i).addQuantityToProduct(activeSaleItemList.get(temp).getQuantity());
+                saleItemList.get(i).updatePrice(activeSaleItemList.get(temp).getProduct().getPrice());
+                saleItemService.create(saleItemList.get(i));
+                activeSaleItemList.get(temp).setQuantity(1);
                 tempBool = true;
             }
-
         }
 
         if (!tempBool ){
 
-            saleItemList.add(activeSaleItemList.get(temp).clone());
+            //saleItemList.add(activeSaleItemList.get(temp).clone());
+
+            saleItemList.add(
+                    new SaleItem(activeSaleItemList.get(temp).getQuantity(),activeSaleItemList.get(temp).getPrice(),
+                            sale,activeSaleItemList.get(temp).getProduct()));
+
+            saleItemList.get(saleItemList.size()-1).updatePrice(saleItemList.get(saleItemList.size()-1).getProduct().getPrice());
+            saleItemService.create(saleItemList.get(saleItemList.size()-1));
+            activeSaleItemList.get(temp).setQuantity(1);
+
         }
     }
 
@@ -160,6 +204,30 @@ public class SaleController {
         System.out.println("teteeteetet");
     }
 
+    public double getPriceList(){
+        double price = 0;
 
+        for(SaleItem saleItem:saleItemList){
+            price += saleItem.getPrice();
+        }
+        return price;
+    }
 
+    public void openSale(){
+
+        if (desk.getOccupantNumber() == 0){
+
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Coloque ao menos uma pessoa no número de ocupantes."));
+
+        } else {
+            desk.setTableState(DeskState.BUSY);
+            deskService.update(desk);
+            FacesMessage msg = new FacesMessage("Sucesso!", "Comanda aberta com sucesso!");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Sale newsale = new Sale(desk,getPriceList(),desk.getArrivingHour(), saleItemList,SaleState.CREATED);
+            saleService.create(newsale);
+            sale = newsale;
+        }
+    }
 }
