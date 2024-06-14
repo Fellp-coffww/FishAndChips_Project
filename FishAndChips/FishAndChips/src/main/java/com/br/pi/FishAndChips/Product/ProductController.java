@@ -128,7 +128,7 @@ public class ProductController implements Serializable {
 
 
 
-    public String salvarProduto() throws Exception {
+    public String saveProduct() throws Exception {
         try {
 
             validateProduct();
