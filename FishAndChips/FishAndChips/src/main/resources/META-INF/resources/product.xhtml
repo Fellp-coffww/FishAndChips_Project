@@ -2,31 +2,133 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Cadastro de Produto</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .menu-bar {
+            width: 100%;
+        }
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: center;
+        }
+        .centered-label {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 1em;
+        }
+        .form-element {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .form-element label {
+            width: 150px;
+        }
+        .form-element input, .form-element textarea, .form-element select {
+            flex-grow: 1;
+        }
+    </style>
 </h:head>
 <h:body>
-    <h:form enctype="multipart/form-data">
-        <h:panelGrid columns="2" columnClasses="label, value">
-            <h:outputLabel for="name" value="Nome:" />
-            <p:inputText id="name" value="#{ProductController.product.name}" />
 
-            <h:outputLabel for="price" value="Preço:" />
-            <p:inputNumber id="price" value="#{ProductController.product.price}" />
+    <div class="menu-bar">
+        <h:form>
+            <p:megaMenu orientation="horizontal" autoDisplay="false">
+                <f:facet name="start">
+                    <p:graphicImage value="src/main/resources/META-INF/resources/img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
+                </f:facet>
 
-            <h:outputLabel for="description" value="Descrição:" />
-            <p:inputTextarea id="description" value="#{ProductController.product.description}" rows="5" />
-            <h:outputLabel for="image" value="Imagem:" />
-            <p:fileUpload id="image" value="#{ProductController.originalImageFile}" mode="simple" skinSimple="true"/>
-            <h:outputLabel for="category" value="Categoria:" />
-            <p:selectOneMenu id="category" value="#{ProductController.categoryName}">
-                <f:selectItems value="#{ProductController.categoryNameList}" />
-            </p:selectOneMenu>
-        </h:panelGrid>
+                <p:submenu label="Menu" icon="pi pi-bars">
+                    <p:column>
+                        <p:submenu label="Menu">
+                            <p:menuitem value="Inicio" url="home.xhtml"/>
+                            <p:menuitem value="Mesas" url="index.xhtml"/>
+                            <p:menuitem value="Relatório"/>
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+            </p:megaMenu>
+        </h:form>
+    </div>
 
-        <p:commandButton value="Salvar" action="#{ProductController.salvarProduto()}" ajax="false" />
-    </h:form>
+    <div class="content">
+        <div class="form-container">
+            <h:form enctype="multipart/form-data">
+                <p:growl id="growl" showDetail="true" />
+                <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+                <p:card style="width: 25em;">
+                    <f:facet name="title">
+                        Cadastro de produto
+                    </f:facet>
+
+                    <p>Digite os dados do produto:</p>
+
+                    <div class="form-element">
+                        <h:outputLabel for="name" value="Nome do produto:" />
+                        <p:inputText id="name" value="#{ProductController.product.name}" required="true" label="Nome do produto">
+                            <f:validateLength minimum="3" />
+                        </p:inputText>
+                    </div>
+
+                    <div class="form-element">
+                        <h:outputLabel for="price" value="Preço do produto:" />
+                        <p:inputNumber id="price" value="#{ProductController.product.price}" required="true" label="Preço do produto"  symbol=" R$"
+                                       symbolPosition="s" decimalSeparator="," thousandSeparator="." >
+                            <p:keyFilter mask="num" />
+                        </p:inputNumber>
+                    </div>
+
+                    <div class="form-element">
+                        <h:outputLabel for="description" value="Descrição:" />
+                        <p:inputTextarea id="description" value="#{ProductController.product.description}" rows="5" />
+                        <p:message for="description" />
+                    </div>
+
+                    <div class="form-element">
+                        <h:outputLabel for="image" value="Imagem:" />
+                        <p:fileUpload id="image" value="#{ProductController.originalImageFile}" mode="simple" skinSimple="true"
+                                      accept="image/*" required="true" fileLimit="10485760" />
+                    </div>
+
+                    <div class="form-element">
+                        <h:outputLabel for="category" value="Categoria:" />
+                        <p:selectOneMenu id="category" value="#{ProductController.categoryName}">
+                            <f:selectItems value="#{ProductController.categoryNameList}" />
+                        </p:selectOneMenu>
+                        <p:message for="category" />
+                    </div>
+
+                    <f:facet name="footer">
+                        <div class="card-footer">
+                            <p:commandButton icon="pi pi-check" value="Salvar" action="#{ProductController.salvarProduto()}" ajax="false" />
+                        </div>
+                    </f:facet>
+                </p:card>
+            </h:form>
+        </div>
+    </div>
+
 </h:body>
 </html>

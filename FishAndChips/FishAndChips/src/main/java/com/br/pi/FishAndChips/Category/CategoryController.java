@@ -20,10 +20,10 @@ import java.util.List;
 @Setter
 @Controller
 @RequestMapping("/api/category")
-@ManagedBean("CategoryController")
+@ManagedBean
 public class CategoryController {
 
-    Category categoryBean = new Category();
+    Category categoryBean;
 
     @Autowired
     CategoryService categoryService;
@@ -74,10 +74,9 @@ public class CategoryController {
     }
 
     public void save() {
-        ModelAndView modelAndView = new ModelAndView();
 
+            categoryBean = new Category(name, description);
             categoryService.save(categoryBean);
-            categoryBean = new Category();
 
     }
 

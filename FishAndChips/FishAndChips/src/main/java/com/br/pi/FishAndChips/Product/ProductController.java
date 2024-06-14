@@ -83,7 +83,6 @@ public class ProductController implements Serializable {
         categoryList = categoryService.findAllCategory();
         products = productService.findAllTypeProducts();
 
-
         for (Category c : categoryList) {
 
             categoryNameList.add(c.getName());
@@ -103,22 +102,53 @@ public class ProductController implements Serializable {
         return "redirect:/";
     }
 
-    public String salvarProduto() throws IOException {
 
+    public void validateProduct() throws InvalidProductException {
 
-        product.setCategory(categoryService.findByName(categoryName));
-        if (originalImageFile != null) {
-            try (InputStream input = originalImageFile.getInputStream()) {
-                byte[] imageBytes = input.readAllBytes();
-                product.setImage(Base64.getEncoder().encodeToString(imageBytes));
-            }
-
-            Product productToBase = new Product(product.getName(),product.getPrice(),product.getDescription(), product.getImage(),product.getCategory());
-
-            productService.create(productToBase);
+        if (product.getName().length()<3 ){
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Nome do produto não tem o tamanho mínimo de caracteres!"));
+            throw new InvalidProductException();
         }
-        FacesMessage msg = new FacesMessage("Produto salvo!");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        originalImageFile = getOriginalImageFile();
+        if ( originalImageFile == null){
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Adicione uma imagem ao produto!"));
+            throw new InvalidProductException();
+        }
+
+        if ( product.getPrice() == 0){
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Adicione um preço ao produto!"));
+            throw new InvalidProductException();
+        }
+
+    }
+
+
+
+
+    public String salvarProduto() throws Exception {
+        try {
+
+            validateProduct();
+            product.setCategory(categoryService.findByName(categoryName));
+            if (originalImageFile != null) {
+                try (InputStream input = originalImageFile.getInputStream()) {
+                    byte[] imageBytes = input.readAllBytes();
+                    product.setImage(Base64.getEncoder().encodeToString(imageBytes));
+                }
+
+                Product productToBase = new Product(product.getName(), product.getPrice(), product.getDescription(), product.getImage(), product.getCategory());
+
+                productService.create(productToBase);
+            }
+            FacesMessage msg = new FacesMessage("Produto salvo!");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return null;
+        } catch (Exception e) {
+            e.getMessage();
+        }
         return null;
     }
 
