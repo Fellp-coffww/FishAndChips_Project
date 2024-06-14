@@ -53,11 +53,13 @@ public class DeskController implements Serializable {
     @PostConstruct
     public void init(){
 
-        if(desks.isEmpty()){
+        updateLists();
 
-            desks = deskService.findAllTypeDesk();
+    }
 
-        }
+    public void updateLists(){
+
+        desks = deskService.getAllDesksOrderedById();
 
         if(desks.size() == 0){
             LocalDateTime now = LocalDateTime.now();
@@ -67,8 +69,8 @@ public class DeskController implements Serializable {
                 deskService.create(desks.get(i));
             }
         }
-    }
 
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<DeskDto>> findAll(){

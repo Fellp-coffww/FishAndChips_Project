@@ -34,5 +34,8 @@ public class DeskService {
         deskRepository.save(desk);
     }
 
+    public List<Desk> getAllDesksOrderedById() {
+        return deskRepository.findAllByOrderById();
+    }
 }
 
