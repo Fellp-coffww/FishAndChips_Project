@@ -75,7 +75,7 @@ public class CategoryController {
 
     public void save() {
 
-            categoryBean = new Category(name, description);
+            categoryBean = new Category(categoryService.getLastID()+1,name, description);
             categoryService.save(categoryBean);
 
     }
