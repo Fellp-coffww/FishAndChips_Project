@@ -156,7 +156,7 @@
     <h:form id="form2">
         <p:growl id="growl" showDetail="true" />
         <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
-        <h2>Comanda da Mesa <h:outputText value="#{saleController.deskId}"/></h2>
+        <h2 style="color: #0056b3">Comanda da Mesa <h:outputText value="#{saleController.deskId}"/></h2>
         <div class="filter-container">
             <div class="select-container">
                 <label for="group">Filtrar produtos:</label>
@@ -218,7 +218,7 @@
 
         <!--- Bloco de seleção de itens da comanda  -->
 
-        <h3>Itens da Comanda </h3>
+        <h3 style="color: #0056b3">Itens da Comanda </h3>
 
         <div id="comanda" style="padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 10px;">
             <p:dataView id="comandaa" var="saleitem" value="#{saleController.saleItemList}" rows="12" paginator="false"
