@@ -37,7 +37,7 @@
 </h:head>
 <h:body>
     <div class="card">
-        <h:form>
+        <h:form id="form">
             <p:megaMenu orientation="horizontal" autoDisplay="false">
                 <f:facet name="start">
                     <p:graphicImage value="src/main/resources/META-INF/resources/img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
@@ -47,7 +47,7 @@
                     <p:column>
                         <p:submenu label="Menu">
                             <p:menuitem value="Inicio" url="home.xhtml"/>
-                            <p:menuitem value="Mesas" url="index.xhtml"/>
+                            <p:menuitem value="Mesas" url="index.xhtml" update="form"/>
                             <p:menuitem value="Relatório"/>
                         </p:submenu>
                     </p:column>
@@ -59,45 +59,12 @@
     <h:form>
 
     <div class="mesas">
-        <p:commandLink value="Mesa1" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(1)}"/>
-        <p:commandLink value="Mesa2" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(2)}"/>
-        <p:commandLink value="Mesa3" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(3)}"/>
-        <p:commandLink value="Mesa4" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(4)}"/>
-        <p:commandLink value="Mesa5" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(5)}"/>
-        <p:commandLink value="Mesa6" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(6)}"/>
-        <p:commandLink value="Mesa7" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(7)}"/>
-        <p:commandLink value="Mesa8" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(8)}"/>
-        <p:commandLink value="Mesa9" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(9)}"/>
-        <p:commandLink value="Mesa10" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(10)}"/>
-        <p:commandLink value="Mesa12" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(12)}"/>
-        <p:commandLink value="Mesa13" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(13)}"/>
-        <p:commandLink value="Mesa14" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(14)}"/>
-        <p:commandLink value="Mesa15" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(15)}"/>
-        <p:commandLink value="Mesa16" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(16)}"/>
-        <p:commandLink value="Mesa17" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(17)}"/>
-        <p:commandLink value="Mesa18" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(18)}"/>
-        <p:commandLink value="Mesa19" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(19)}"/>
-        <p:commandLink value="Mesa20" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(20)}"/>
-        <p:commandLink value="Mesa21" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(21)}"/>
-        <p:commandLink value="Mesa22" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(22)}"/>
-        <p:commandLink value="Mesa23" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(23)}"/>
-        <p:commandLink value="Mesa24" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(24)}"/>
-        <p:commandLink value="Mesa25" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(25)}"/>
-        <p:commandLink value="Mesa26" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(26)}"/>
-        <p:commandLink value="Mesa27" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(27)}"/>
-        <p:commandLink value="Mesa28" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(28)}"/>
-        <p:commandLink value="Mesa29" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(29)}"/>
-        <p:commandLink value="Mesa30" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(30)}"/>
-        <p:commandLink value="Mesa31" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(31)}"/>
-        <p:commandLink value="Mesa32" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(32)}"/>
-        <p:commandLink value="Mesa33" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(33)}"/>
-        <p:commandLink value="Mesa34" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(34)}"/>
-        <p:commandLink value="Mesa35" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(35)}"/>
-        <p:commandLink value="Mesa36" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(36)}"/>
-        <p:commandLink value="Mesa37" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(37)}"/>
-        <p:commandLink value="Mesa38" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(38)}"/>
-        <p:commandLink value="Mesa39" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(39)}"/>
-        <p:commandLink value="Mesa40" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 100px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(40)}"/>
+
+        <ui:repeat var="desk" value="#{deskController.desks}" varStatus="status" start="1">
+            <p:commandLink update="form" rendered="#{desk.tableState == 'FREE'}" value="Mesa#{status.index + 1}" style="background-color: green; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 120px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(desk.id) }"/>
+            <p:commandLink update="form" rendered="#{desk.tableState == 'BUSY'}" value="Mesa#{status.index + 1}" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 120px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(desk.id)}"/>
+            <p:commandLink update="form" rendered="#{desk.tableState == 'WAINTING_PAYMENT'}" value="Mesa#{status.index + 1}" style="background-color: orange; color: white; border: none; border-radius: 5px; padding: 30px; margin: 20px; cursor: pointer; width: 120px; text-align: center; text-decoration: none;" action="#{deskController.navegarParaComanda(desk.id)}"/>
+        </ui:repeat>
 
     </div>
 </h:form>
