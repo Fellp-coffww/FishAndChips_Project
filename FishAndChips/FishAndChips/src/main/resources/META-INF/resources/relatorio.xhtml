@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Hello, Spring and JSF World!</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        }
+
+        .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        }
+
+        h1 {
+        text-align: center;
+        color: #0056b3;
+        margin-bottom: 20px;
+        }
+
+        .grid {
+        width: 100%;
+        margin-bottom: 20px;
+        }
+
+        .grid h:outputLabel {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-right: 10px;
+        }
+
+        .grid h:selectOneMenu, .grid h:inputText {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        }
+
+
+    </style>
+</h:head>
+<h:body>
+    <div class="card">
+        <h:form>
+            <p:megaMenu orientation="horizontal" autoDisplay="false">
+                <f:facet name="start">
+                    <p:graphicImage name="img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
+                </f:facet>
+
+                <p:submenu label="Menu" icon="pi pi-bars">
+                    <p:column>
+                        <p:submenu label="Menu">
+                            <p:menuitem value="Inicio" url="home.xhtml"/>
+                            <p:menuitem value="Mesas" url="index.xhtml"/>
+                            <p:menuitem value="Relatório" url="relatorio.xhtml"/>
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+            </p:megaMenu>
+        </h:form>
+    </div>
+    <div class="container">
+        <h1>Relatório da Empresa</h1>
+        <h:form>
+            <h:panelGrid columns="2" styleClass="grid">
+                <h:outputLabel for="mes" value="Mês:" />
+                <h:selectOneMenu id="mes" value="#{relatorioBean.mes}">
+                    <f:selectItem itemLabel="Selecione" itemValue="" />
+                    <f:selectItem itemLabel="Janeiro" itemValue="1" />
+                    <f:selectItem itemLabel="Fevereiro" itemValue="2" />
+                    <f:selectItem itemLabel="Março" itemValue="3" />
+                    <f:selectItem itemLabel="Abril" itemValue="4" />
+                    <f:selectItem itemLabel="Maio" itemValue="5" />
+                    <f:selectItem itemLabel="Junho" itemValue="6" />
+                    <f:selectItem itemLabel="Julho" itemValue="7" />
+                    <f:selectItem itemLabel="Agosto" itemValue="8" />
+                    <f:selectItem itemLabel="Setembro" itemValue="9" />
+                    <f:selectItem itemLabel="Outubro" itemValue="10" />
+                    <f:selectItem itemLabel="Novembro" itemValue="11" />
+                    <f:selectItem itemLabel="Dezembro" itemValue="12" />
+                </h:selectOneMenu>
+
+                <h:outputLabel for="ano" value="Ano:" />
+                <h:inputText id="ano" value="#{relatorioBean.ano}" />
+
+            </h:panelGrid>
+            <p style="text-align: center;">Tipos de Relatório:</p>
+            <p:link outcome="resumido" value="Gerar relatorio resumido" style="display: block; width: 100%;padding: 10px;background-color: #0056b3;color: white;border: none;border-radius: 4px;cursor: pointer;text-align: center;font-size: 16px;"/>
+            <p:link outcome="Comanda" value="Gerar relatorio detalhado" style="display: block; width: 100%;padding: 10px;background-color: #0056b3;color: white;border: none;border-radius: 4px;cursor: pointer;text-align: center;font-size: 16px;"/>
+        </h:form>
+
+        <h:panelGroup rendered="#{relatorioBean.tipoRelatorio == 'resumo'}">
+            <h:graphicImage value="/relatorio_resumido.png" alt="Gráfico Resumido"/>
+        </h:panelGroup>
+    </div>
+
+</h:body>
+</html>
+
