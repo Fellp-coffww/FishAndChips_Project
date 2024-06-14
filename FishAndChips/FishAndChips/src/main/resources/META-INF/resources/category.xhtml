@@ -4,9 +4,11 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+    <link rel="icon" type="image/jpg" href="img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
     <title>Cadastro de Categoria</title>
     <style>
         body {
+            background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -70,7 +72,9 @@
                         <p:submenu label="Menu">
                             <p:menuitem value="Inicio" url="home.xhtml"/>
                             <p:menuitem value="Mesas" url="index.xhtml"/>
-                            <p:menuitem value="Relatório"/>
+                            <p:menuitem value="Relatório" url="relatorio.xhtml"/>
+                            <p:menuitem value="Cadastro de produtos" url="product.xhtml"/>
+                            <p:menuitem value="Cadastro de categoria" url="category.xhtml"/>
                         </p:submenu>
                     </p:column>
                 </p:submenu>
@@ -85,9 +89,7 @@
                 <p:growl id="growl" showDetail="true" />
                 <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
                 <p:card style="width: 25em;">
-                    <f:facet name="title">
-                        Cadastro de categoria
-                    </f:facet>
+                    <h1 style="text-align: center;color: #0056b3">Cadastro de categoria</h1>
 
                     <p>Digite os dados da categoria:</p>
 

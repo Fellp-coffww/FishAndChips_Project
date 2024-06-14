@@ -70,6 +70,8 @@
                             <p:menuitem value="Inicio" url="home.xhtml"/>
                             <p:menuitem value="Mesas" url="index.xhtml"/>
                             <p:menuitem value="Relatório" url="relatorio.xhtml"/>
+                            <p:menuitem value="Cadastro de produtos" url="product.xhtml"/>
+                            <p:menuitem value="Cadastro de categoria" url="category.xhtml"/>
                         </p:submenu>
                     </p:column>
                 </p:submenu>
@@ -102,8 +104,7 @@
 
             </h:panelGrid>
             <p style="text-align: center;">Tipos de Relatório:</p>
-            <p:link outcome="resumido" value="Gerar relatorio resumido" style="display: block; width: 100%;padding: 10px;background-color: #0056b3;color: white;border: none;border-radius: 4px;cursor: pointer;text-align: center;font-size: 16px;"/>
-            <p:link outcome="Comanda" value="Gerar relatorio detalhado" style="display: block; width: 100%;padding: 10px;background-color: #0056b3;color: white;border: none;border-radius: 4px;cursor: pointer;text-align: center;font-size: 16px;"/>
+            <p:link outcome="Comanda" value="Gerar" style="display: block; width: 100%;padding: 10px;background-color: #0056b3;color: white;border: none;border-radius: 4px;cursor: pointer;text-align: center;font-size: 16px;"/>
         </h:form>
 
         <h:panelGroup rendered="#{relatorioBean.tipoRelatorio == 'resumo'}">

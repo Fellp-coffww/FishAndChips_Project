@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
@@ -75,34 +76,48 @@
         .button:hover {
             background-color: #0056b3;
         }
+
+        .card {
+            margin-bottom: 20px;
+        }
     </style>
 </h:head>
 <h:body>
 
-<h:form id="finalizarComandaForm" class="form-container">
-    <h1 style="text-align: center; color: #0056b3">Finalizar Comanda</h1>
-    <h:panelGrid columns="2" cellpadding="5" class="form-grid">
-        <h:outputLabel value="Consumo da Mesa:" for="consumoMesa" class="label"/>
-        <h:inputTextarea id="consumoMesa" value="#{comandaBean.consumoMesa}" readonly="true" rows="5" cols="30" class="textarea"/>
+    <h:form id="finalizarComandaForm" class="form-container">
+        <h1 style="text-align: center; color: #0056b3">Finalizar Comanda</h1>
+        <h:panelGrid columns="2" cellpadding="5" class="form-grid">
+            <h:outputLabel value="Consumo da Mesa:" for="consumoMesa" class="label"/>
+            <h:inputTextarea id="consumoMesa" value="#{comandaBean.consumoMesa}" readonly="true" rows="5" cols="30" class="textarea"/>
 
-        <h:outputLabel value="Valor Total:" for="valorTotal" class="label"/>
-        <h:inputText id="valorTotal" value="#{comandaBean.valorTotal}" readonly="true" class="input"/>
+            <h:outputLabel value="Valor Total:" for="valorTotal" class="label"/>
+            <h:inputText id="valorTotal" value="#{comandaBean.valorTotal}" readonly="true" class="input"/>
 
-        <h:outputLabel value="Valor por Pessoa:" for="valorPorPessoa" class="label"/>
-        <h:inputText id="valorPorPessoa" value="#{comandaBean.valorPorPessoa}" readonly="true" class="input"/>
+            <h:outputLabel value="Valor por Pessoa:" for="valorPorPessoa" class="label"/>
+            <h:inputText id="valorPorPessoa" value="#{comandaBean.valorPorPessoa}" readonly="true" class="input"/>
 
-        <h:outputLabel value="Método de Pagamento:" for="metodoPagamento" class="label"/>
-        <h:selectOneMenu id="metodoPagamento" value="#{comandaBean.metodoPagamento}" class="select">
-            <f:selectItem itemLabel="Selecione" itemValue=""/>
-            <f:selectItem itemLabel="Dinheiro" itemValue="dinheiro"/>
-            <f:selectItem itemLabel="Cartão de Débito" itemValue="debito"/>
-            <f:selectItem itemLabel="Cartão de Crédito" itemValue="credito"/>
-            <f:selectItem itemLabel="Pix" itemValue="pix"/>
-        </h:selectOneMenu>
-    </h:panelGrid>
+            <h:outputLabel value="Método de Pagamento:" for="metodoPagamento" class="label"/>
+            <h:selectOneMenu id="metodoPagamento" value="#{comandaBean.metodoPagamento}" class="select">
+                <f:selectItem itemLabel="Selecione" itemValue=""/>
+                <f:selectItem itemLabel="Dinheiro" itemValue="dinheiro"/>
+                <f:selectItem itemLabel="Cartão de Débito" itemValue="debito"/>
+                <f:selectItem itemLabel="Cartão de Crédito" itemValue="credito"/>
+                <f:selectItem itemLabel="Pix" itemValue="pix"/>
+            </h:selectOneMenu>
+        </h:panelGrid>
 
-    <h:commandButton value="Concluir Pagamento" action="#{comandaBean.concluirPagamento}" class="button"/>
-</h:form>
+        <div class="card">
+            <h:form>
+                <p:growl id="growl" showDetail="true"/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel value="Taxa do garçom:" for="taxaGarcom" class="label"/>
+                    <p:triStateCheckbox id="taxaGarcom" value="#{triStateCheckboxView.value1}"/>
+                </h:panelGrid>
+            </h:form>
+            <h:commandButton value="Concluir Pagamento" action="#{comandaBean.concluirPagamento}" class="button"/>
+        </div>
+    </h:form>
 
 </h:body>
 </html>
+
