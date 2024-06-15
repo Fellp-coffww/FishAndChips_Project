@@ -181,6 +181,10 @@
                 <label  for="numPessoas">Abertura de comanda</label>
                 <p:commandButton type="submit" id="AbrirMesa"  value="Abrir comanda"  actionListener="#{saleController.openSale}" disabled="#{saleController.desk.tableState == 'BUSY'}" styleClass="ui-button-raised ui-button-success" update="@form growl"/>
             </div>
+            <div class="input-container">
+                <label  for="numPessoas">Cancelar comanda</label>
+                <p:commandButton type="submit" id="CancelarMesa"  value="Cancelar comanda"  actionListener="#{saleController.openSale}" disabled="#{saleController.desk.tableState == 'BUSY'}" styleClass="ui-button-danger ui-button-success" update="@form growl"/>
+            </div>
         </div>
 
         <!--- Bloco de seleção de produtos (cardápio) -->

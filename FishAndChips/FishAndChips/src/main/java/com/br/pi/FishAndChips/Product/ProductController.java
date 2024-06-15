@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-@ManagedBean("ProductController")
+@ManagedBean
 @Component
 @SessionScoped
 @Getter
@@ -125,7 +125,21 @@ public class ProductController implements Serializable {
 
     }
 
+    public void newProduct(){
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("product.xhtml");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
+    public void newCategory(){
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("category.xhtml");
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
 
     public String saveProduct() throws Exception {
@@ -143,8 +157,8 @@ public class ProductController implements Serializable {
 
                 productService.create(productToBase);
             }
-            FacesMessage msg = new FacesMessage("Produto salvo!");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+            FacesContext.getCurrentInstance().getExternalContext().redirect("porductEdit.xhtml");
             return null;
         } catch (Exception e) {
             e.getMessage();
