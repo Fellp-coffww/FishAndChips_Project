@@ -48,4 +48,10 @@ public class CategoryService {
 
     }
 
+    public long getLastID(){
+       int size = categoryRepository.findAllByOrderById().size();
+       return categoryRepository.findAllByOrderById().get(size-1).getId();
+
+    }
+
 }
