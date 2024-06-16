@@ -28,7 +28,7 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    String name = "";
+    String name = "erferferferferf";
 
     String description = "";
 

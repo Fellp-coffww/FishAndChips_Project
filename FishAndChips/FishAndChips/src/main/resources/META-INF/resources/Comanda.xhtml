@@ -97,14 +97,9 @@
 
         .btn-container {
             text-align: center;
-            margin-top: 20px;
+            margin: 10px;
 
         }
-
-        .btn-container {
-            margin: 0 10px;
-        }
-
         .input-container, .select-container {
             display: flex;
             flex-direction: column;
@@ -137,7 +132,7 @@
             border-radius: 10px;
         }
         .busy-status {
-             background-color: red;
+             background-color: #d32f2f;
              color: white;
              padding: 5px;
              border-radius: 10px;
@@ -149,6 +144,7 @@
             padding: 5px;
             border-radius: 10px;
         }
+    
     </style>
 </h:head>
 
@@ -164,7 +160,7 @@
                 <p:selectOneMenu id="group" value="#{saleController.category}">
                     <f:selectItem itemLabel="Seleciona a categoria do produto: " itemValue=""/>
                     <f:selectItems value="#{saleController.categories}"/>
-                    <p:ajax event="change" listener="#{saleController.updateProductsByCategoryName}" update="@form"/>
+                    <p:ajax event="change" listener="#{saleController.updateProductsByCategoryName}" update="caroussel"/>
                 </p:selectOneMenu>
             </div>
             <div class="input-container">
@@ -179,19 +175,30 @@
             </div>
             <div class="input-container">
                 <label  for="numPessoas">Abertura de comanda</label>
-                <p:commandButton type="submit" id="AbrirMesa"  value="Abrir comanda"  actionListener="#{saleController.openSale}" disabled="#{saleController.desk.tableState == 'BUSY'}" styleClass="ui-button-raised ui-button-success" update="@form growl"/>
+                <p:commandButton type="submit" id="AbrirMesa"  value="Abrir comanda"  actionListener="#{saleController.openSale}" disabled="#{saleController.desk.tableState == 'BUSY' or saleController.desk.tableState == 'WAINTING_PAYMENT'}" styleClass="ui-button-raised ui-button-success" update="@form growl"/>
             </div>
             <div class="input-container">
                 <label  for="numPessoas">Cancelar comanda</label>
-                <p:commandButton type="submit" id="CancelarMesa"  value="Cancelar comanda"  actionListener="#{saleController.openSale}" disabled="#{saleController.desk.tableState == 'BUSY'}" styleClass="ui-button-danger ui-button-success" update="@form growl"/>
+                <p:commandButton type="submit" id="CancelarMesa"  value="Cancelar comanda"  actionListener="#{saleController.cancellComand}" disabled="#{saleController.desk.tableState == 'FREE'}" styleClass="ui-button-danger ui-button-success" update="@form growl" />
             </div>
+            <h:form>
+                <p:growl id="growl2" showDetail="true"/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel value="Taxa do garçom:" for="taxaGarcom" class="label"/>
+                    <div>
+                    <p:selectBooleanCheckbox id="taxaGarcom" value="#{saleController.waiterTax}">
+                        <p:ajax event="change" listener="#{saleController.priceWithTax()}" />
+                    </p:selectBooleanCheckbox>
+                    </div>
+                </h:panelGrid>
+            </h:form>
         </div>
 
         <!--- Bloco de seleção de produtos (cardápio) -->
 
         <div class="card">
             <p:carousel value="#{saleController.activeSaleItemList}" var="saleitem" numVisible="3" numScroll="3"
-                        responsiveOptions="#{saleController.responsiveOptions}">
+                        responsiveOptions="#{saleController.responsiveOptions}" id="caroussel">
                 <f:facet name="header">
                 </f:facet>
                 <div class="product-item">
@@ -253,7 +260,7 @@
                             <h:outputText value="#{saleitem.price}" styleClass="product-price" style="font-size: 1.2em; font-weight: bold;">
                                 <f:convertNumber currencySymbol="R$" type="currency"/>
                             </h:outputText>
-                            <p:commandButton icon="pi pi-trash"  type="submit"  actionListener="#{saleController.decreaseProduct(saleitem.id)}" styleClass="rounded-button ui-button-danger" update="form2:comandaa" />
+                            <p:commandButton icon="pi pi-trash"  type="submit"  actionListener="#{saleController.decreaseProduct(saleitem.id)}" styleClass="rounded-button ui-button-danger" update="form2:comandaa" disabled="#{saleController.desk.tableState == 'WAINTING_PAYMENT'}"/>
 
                             <p:dialog header="Pick Color" widgetVar="dlg" minHeight="50" width="350" showEffect="fade" modal="true">
                                 <div style="height: 300px">
@@ -286,17 +293,16 @@
                             <h:outputText value="#{saleitem.price}" styleClass="product-price" style="font-size: 1.2em; font-weight: bold;">
                                 <f:convertNumber currencySymbol="R$" type="currency"/>
                             </h:outputText>
-                            <p:commandButton icon="pi pi-trash"  type="submit"  actionListener="#{saleController.decreaseProduct(saleitem.id)}" styleClass="rounded-button ui-button-danger" update="form2:comandaa" />
+                            <p:commandButton icon="pi pi-trash"  type="submit"  actionListener="#{saleController.decreaseProduct(saleitem.id)}" styleClass="rounded-button ui-button-danger" update="form2:comandaa" disabled="#{saleController.desk.tableState == 'WAINTING_PAYMENT'}"/>
                         </div>
                     </div>
                 </p:dataViewListItem>
             </p:dataView>
         </div>
 
-
         <div class="btn-container">
-            <p:commandButton type="button"  value="Voltar" action="index.xhtml?faces-redirect=true" />
-            <p:commandButton type="submit" value="Finalizar Comanda" action="#{saleController.endCommand}" styleClass="ui-button-danger"/>
+            <p:commandButton type="submit"  value="Voltar" actionListener="#{saleController.returnDesk}" style="margin: 10px;"/>
+            <p:commandButton type="submit" value="Finalizar Comanda" action="#{saleController.endCommand}" styleClass="ui-button-danger"  style="margin: 10px;" disabled="#{saleController.desk.tableState == 'FREE'}"/>
         </div>
     </h:form>
 </h:body>

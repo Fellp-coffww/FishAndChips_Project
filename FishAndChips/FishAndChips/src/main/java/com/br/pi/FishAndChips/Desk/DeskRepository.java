@@ -12,4 +12,5 @@ public interface DeskRepository extends JpaRepository<Desk, Long> {
 
     List<Desk> findAllByOrderById();
 
+
 }

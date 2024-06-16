@@ -20,4 +20,6 @@ Sale findSaleById(Long id);
 
 List<Sale> findByDeskIdAndSaleState(Long deskId, SaleState saleState);
 
+
+
 }
