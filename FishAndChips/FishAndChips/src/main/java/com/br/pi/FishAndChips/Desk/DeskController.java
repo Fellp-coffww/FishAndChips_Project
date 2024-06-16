@@ -5,6 +5,7 @@ import com.br.pi.FishAndChips.Category.CategoryService;
 import com.br.pi.FishAndChips.Sale.SaleController;
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +70,6 @@ public class DeskController implements Serializable {
                 deskService.create(desks.get(i));
             }
         }
-
     }
 
     @GetMapping("/")
@@ -93,6 +93,7 @@ public class DeskController implements Serializable {
             return new ResponseEntity<DeskDto>(cat, HttpStatus.OK);
 
     }
+
 
     public void navegarParaComanda(String deskId) {
         try {

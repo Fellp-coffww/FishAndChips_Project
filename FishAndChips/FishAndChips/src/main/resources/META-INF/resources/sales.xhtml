@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+    <title>Vendas realizadas</title>
+
+
+    <style>
+
+        body, h2, h3, h4, h6 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
+            font-size: 20px;
+        }
+
+    </style>
+
+</h:head>
+
+<h:body>
+
+
+
+    <div class="menu-bar">
+        <h:form id="form2">
+            <p:megaMenu orientation="horizontal" autoDisplay="false">
+                <f:facet name="start">
+                    <p:graphicImage value="src/main/resources/META-INF/resources/img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
+                </f:facet>
+
+                <p:submenu label="Menu" icon="pi pi-bars">
+                    <p:column>
+                        <p:submenu label="Menu">
+                            <p:menuitem value="Inicio" url="home.xhtml"/>
+                            <p:menuitem value="Mesas" url="index.xhtml" update="form"/>
+                            <p:menuitem value="Vendas" url="sales.xhtml"/>
+                            <p:menuitem value="Produtos" url="productEdit.xhtml"/>
+                        </p:submenu>
+                    </p:column>
+                </p:submenu>
+            </p:megaMenu>
+        </h:form>
+    </div>
+
+    <h2 style="color: #0056b3" >Tabela de <vendas></vendas>
+        <p:commandButton type="submit" value="Gerar relatórios " icon="pi pi-plus" actionListener="#{saleReport.goToReport  }"
+                         style="margin-right: .5rem; background-color: #0056b3"/>
+    </h2>
+
+    <h:form>
+        <div class="card">
+            <p:dataTable var="sale" value="#{saleController.sales}">
+                <p:column headerText="Código da venda" sortBy="#{sale.id}">
+                    <h:outputText value="#{sale.id}" />
+                </p:column>
+
+                <p:column headerText="Método de pagamento" sortBy="#{sale.paymentMethod}">
+                    <h:outputText value="#{sale.paymentMethod}" />
+                </p:column>
+
+                <p:column headerText="Preço" sortBy="#{sale.price}">
+                    <h:outputText value="#{sale.price}" >
+                    <f:convertNumber type="currency" currencySymbol="R$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Mesa" sortBy="#{sale.desk.id}">
+                    <h:outputText value="#{sale.desk.id}"  />
+                </p:column>
+
+                <p:column headerText="Data da venda: " sortBy="#{sale.date}">
+                    <h:outputText value="#{sale.date}"  >
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                    </h:outputText>
+                </p:column>
+
+
+            </p:dataTable>
+        </div>
+    </h:form>
+</h:body>
+</html>

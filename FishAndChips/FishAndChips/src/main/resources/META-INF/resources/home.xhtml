@@ -29,20 +29,19 @@
 </h:head>
 <h:body>
     <div class="card">
-        <h:form>
+        <h:form id="form">
             <p:megaMenu orientation="horizontal" autoDisplay="false">
                 <f:facet name="start">
-                    <p:graphicImage name="img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
+                    <p:graphicImage value="src/main/resources/META-INF/resources/img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
                 </f:facet>
 
                 <p:submenu label="Menu" icon="pi pi-bars">
                     <p:column>
                         <p:submenu label="Menu">
                             <p:menuitem value="Inicio" url="home.xhtml"/>
-                            <p:menuitem value="Mesas" url="index.xhtml"/>
-                            <p:menuitem value="Relatório" url="relatorio.xhtml"/>
-                            <p:menuitem value="Cadastro de produtos" url="product.xhtml"/>
-                            <p:menuitem value="Cadastro de categoria" url="category.xhtml"/>
+                            <p:menuitem value="Mesas" url="index.xhtml" update="form"/>
+                            <p:menuitem value="Vendas" url="sales.xhtml"/>
+                            <p:menuitem value="Produtos" url="productEdit.xhtml"/>
                         </p:submenu>
                     </p:column>
                 </p:submenu>

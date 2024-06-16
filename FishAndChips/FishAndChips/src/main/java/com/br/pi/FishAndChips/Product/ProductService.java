@@ -65,4 +65,14 @@ public class ProductService {
         return productRepository.findProductsByCategoryName(category);
 
     }
+
+    public void deleteProductById(Long id){
+        productRepository.delete(findById(id));
+    }
+
+    public void deleteProduct(Product product){
+        productRepository.delete(product);
+    }
+
+
 }

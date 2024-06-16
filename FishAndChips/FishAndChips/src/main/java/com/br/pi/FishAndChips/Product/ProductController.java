@@ -6,10 +6,12 @@ import com.br.pi.FishAndChips.Category.CategoryService;
 import com.br.pi.FishAndChips.Product.Product;
 import com.br.pi.FishAndChips.Product.ProductDto;
 import com.br.pi.FishAndChips.Product.ProductService;
+import com.br.pi.FishAndChips.SaleItem.SaleItemService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
 import org.primefaces.model.file.UploadedFile;
@@ -53,6 +55,8 @@ public class ProductController implements Serializable {
 
     private Product product = new Product();
 
+    private Product selectedProduct;
+
     private List<Product> products;
 
     private List<Category> categoryList;
@@ -74,6 +78,9 @@ public class ProductController implements Serializable {
 
     @Inject
     private CategoryService categoryService;
+
+    @Inject
+    private SaleItemService saleItemService;
 
     @Autowired
     ProductRepository productRepository;
@@ -103,7 +110,7 @@ public class ProductController implements Serializable {
     }
 
 
-    public void validateProduct() throws InvalidProductException {
+    public void validateProduct(Product product) throws InvalidProductException {
 
         if (product.getName().length()<3 ){
             FacesContext.getCurrentInstance().
@@ -144,8 +151,7 @@ public class ProductController implements Serializable {
 
     public String saveProduct() throws Exception {
         try {
-
-            validateProduct();
+            validateProduct(product);
             product.setCategory(categoryService.findByName(categoryName));
             if (originalImageFile != null) {
                 try (InputStream input = originalImageFile.getInputStream()) {
@@ -158,12 +164,51 @@ public class ProductController implements Serializable {
                 productService.create(productToBase);
             }
 
-            FacesContext.getCurrentInstance().getExternalContext().redirect("porductEdit.xhtml");
+            products = productService.findAllTypeProducts();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("productEdit.xhtml");
             return null;
         } catch (Exception e) {
             e.getMessage();
         }
         return null;
+    }
+
+
+    public void productById(String id){
+
+        selectedProduct = productService.findById(Long.parseLong(id));
+
+    }
+
+
+    public void saveEdictedProduct(){
+
+        try {
+            productService.create(selectedProduct);
+            products = productService.findAllTypeProducts();
+            PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
+            PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void deleteProductById(String id){
+        long idLong = Long.parseLong(id);
+        saleItemService.deleteSaleItemByProductId(idLong);
+        productService.deleteProductById(idLong);
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+        PrimeFaces.current().executeScript("PF('dtProducts').clearFilters()");
+    }
+
+    public void deleteSelectedProduct(){
+        saleItemService.deleteSaleItemByProductId(selectedProduct.getId());
+        productService.deleteProduct(selectedProduct);
+        products = productService.findAllTypeProducts();
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+        PrimeFaces.current().executeScript("PF('dtProducts').clearFilters()");
     }
 
 

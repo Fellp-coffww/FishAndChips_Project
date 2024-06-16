@@ -26,10 +26,11 @@ public class Sale {
     @ManyToOne
     private Desk desk;
 
+    @Column
     private double price;
 
-    @Column(name = "hour")
-    private Date hoursInDesk;
+    @Column(name = "Date")
+    private Date date;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private List<SaleItem> saleItemList;
@@ -38,10 +39,15 @@ public class Sale {
     private SaleState saleState;
 
 
-    public Sale(Desk desk, double price, Date hoursInDesk, List<SaleItem> saleItemList, SaleState saleState) {
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+
+
+    public Sale(Desk desk, double price, Date date, List<SaleItem> saleItemList, SaleState saleState) {
         this.desk = desk;
         this.price = price;
-        this.hoursInDesk = hoursInDesk;
+        this.date = date;
         this.saleItemList = saleItemList;
         this.saleState = saleState;
     }

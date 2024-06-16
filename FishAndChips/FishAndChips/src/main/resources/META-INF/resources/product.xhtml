@@ -89,14 +89,14 @@
 
                     <div class="form-element">
                         <h:outputLabel for="name" value="Nome do produto:" />
-                        <p:inputText id="name" value="#{ProductController.product.name}" required="true" label="Nome do produto">
+                        <p:inputText id="name" value="#{productController.product.name}" required="true" label="Nome do produto">
                             <f:validateLength minimum="3" />
                         </p:inputText>
                     </div>
 
                     <div class="form-element">
                         <h:outputLabel for="price" value="Preço do produto:" />
-                        <p:inputNumber id="price" value="#{ProductController.product.price}" required="true" label="Preço do produto"  symbol=" R$"
+                        <p:inputNumber id="price" value="#{productController.product.price}" required="true" label="Preço do produto"  symbol=" R$"
                                        symbolPosition="s" decimalSeparator="," thousandSeparator="." >
                             <p:keyFilter mask="num" />
                         </p:inputNumber>
@@ -104,27 +104,27 @@
 
                     <div class="form-element">
                         <h:outputLabel for="description" value="Descrição:" />
-                        <p:inputTextarea id="description" value="#{ProductController.product.description}" rows="5" />
+                        <p:inputTextarea id="description" value="#{productController.product.description}" rows="5" />
                         <p:message for="description" />
                     </div>
 
                     <div class="form-element">
                         <h:outputLabel for="image" value="Imagem:" />
-                        <p:fileUpload id="image" value="#{ProductController.originalImageFile}" mode="simple" skinSimple="true"
+                        <p:fileUpload id="image" value="#{productController.originalImageFile}" mode="simple" skinSimple="true"
                                       accept="image/*" required="true" fileLimit="10485760" />
                     </div>
 
                     <div class="form-element">
                         <h:outputLabel for="category" value="Categoria:" />
-                        <p:selectOneMenu id="category" value="#{ProductController.categoryName}">
-                            <f:selectItems value="#{ProductController.categoryNameList}" />
+                        <p:selectOneMenu id="category" value="#{productController.categoryName}">
+                            <f:selectItems value="#{productController.categoryNameList}" />
                         </p:selectOneMenu>
                         <p:message for="category" />
                     </div>
 
                     <f:facet name="footer">
                         <div class="card-footer">
-                            <p:commandButton icon="pi pi-check" value="Salvar" action="#{ProductController.saveProduct()}" ajax="false" />
+                            <p:commandButton icon="pi pi-check" value="Salvar" action="#{productController.saveProduct()}" ajax="false" />
                         </div>
                     </f:facet>
                 </p:card>
