@@ -77,6 +77,8 @@ public class SaleController implements Serializable {
 
     private boolean waiterTax;
 
+    private boolean descount;
+
     private String viewCommand;
 
     private PaymentMethod paymentMethod;
@@ -146,6 +148,17 @@ public class SaleController implements Serializable {
     }
 
 
+    public void updateProduct(){
+
+        products = productService.findAllTypeProducts();
+        long temp = 0;
+        activeSaleItemList.clear();
+        for(Product product:products){
+            activeSaleItemList.add(new SaleItem(1,product.getPrice(),sale,product,temp));
+            temp +=1;
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Sale> findById(@PathVariable("id") Long id){
 
@@ -206,7 +219,7 @@ public class SaleController implements Serializable {
 
         for (SaleItem saleItem: saleItemList) {
 
-                if(saleItem.getId() == temp) {
+                if(saleItem.getId().equals(temp)) {
                     if(saleItem.getQuantity()  <= 1){
                         saleItem.decreaseQuantityToProduct();
                         saleItemList.remove(saleItem);
@@ -224,21 +237,34 @@ public class SaleController implements Serializable {
 
     public void endCommand(){
 
+        if(saleItemList.isEmpty()){
+
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Adicione ao menos um produto para finalizar a venda! "));
+            PrimeFaces.current().ajax().update("form2:growl");
+        }else {
+
+        if(sale.getDesk().getOccupantNumber() > 5){
+            descount = true;
+        }else{
+            descount = false;
+        }
+
         sale.setPrice(getPriceList());
         pricePerPeople();
-
-
         viewCommand = commandInfo();
 
         if (desk.getTableState() != DeskState.WAINTING_PAYMENT) {
 
             desk.setTableState(DeskState.WAINTING_PAYMENT);
             deskService.create(desk);
+            deskController.init();
         }
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("finalizarComanda.xhtml");
         } catch (IOException e) {
             e.printStackTrace();
+        }
         }
     }
 
@@ -267,6 +293,9 @@ public class SaleController implements Serializable {
             price += saleItem.getPrice();
         }
 
+        if(descount){
+            price = price - (price*0.05);
+        }
         if (waiterTax){
             price = price + (price*0.1);
         }
@@ -313,9 +342,16 @@ public class SaleController implements Serializable {
             n++;
         }
 
-        if(waiterTax){
+        if(waiterTax && descount){
 
             temp += String.format("\n\n Taxa de serviço cobrada em 10%% no valor de: %10.2f R$\n", (sale.getPrice() / 11));
+            temp += String.format("\n\n Desconto de 5%% no valor de: %10.2f R$\n", ((sale.getPrice()/11)/2));
+
+        }
+
+        if(!waiterTax && descount){
+
+            temp += String.format("\n\n Desconto de 5%% no valor de: %10.2f R$\n", ((sale.getPrice() * 0.05)/0.95));
 
 
         }
@@ -330,8 +366,6 @@ public class SaleController implements Serializable {
         pricePeople = sale.getPrice()/ desk.getOccupantNumber();
 
     }
-
-
 
     public List<PaymentMethod> getPaymentMethods() {
         return Arrays.asList(PaymentMethod.values());
@@ -351,8 +385,6 @@ public class SaleController implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
 

@@ -20,6 +20,6 @@ List<Product> findAllByCategory(Category category);
 
 List<Product> findProductsByCategoryName(String categoryName);
 
-
+ Product findByName(String name);
 
 }

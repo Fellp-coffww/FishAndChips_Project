@@ -2,8 +2,11 @@ package com.br.pi.FishAndChips.DashBoard;
 
 
 import com.br.pi.FishAndChips.Product.Product;
+import com.br.pi.FishAndChips.Product.ProductService;
 import com.br.pi.FishAndChips.Sale.Sale;
 import com.br.pi.FishAndChips.Sale.SaleService;
+import com.br.pi.FishAndChips.SaleItem.SaleItem;
+import com.br.pi.FishAndChips.SaleItem.SaleItemService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.IOException;
@@ -49,7 +53,16 @@ public class SaleReport implements Serializable {
 
     private List<Sale> saleFilteredByHour = new ArrayList<>();
 
-    private Product product;
+    private List<SaleItem> saleItemsFiltered = new ArrayList<>();
+
+    private Product product = new Product();
+
+    private String productName;
+
+    private List<Product> productList = new ArrayList<>();
+
+    private List<String> productNameList = new ArrayList<>();
+
 
     private LocalDate initialDate;
 
@@ -59,23 +72,38 @@ public class SaleReport implements Serializable {
 
     private String reportType;
 
+    private int permission;
+
     private LineChartModel salesValues;
 
     private BarChartModel deskMostValued;
 
+
     @Autowired
     SaleService saleService;
 
+    @Autowired
+    SaleItemService saleItemService;
+
+    @Autowired
+    ProductService productService;
+
     @PostConstruct
-    public void init(){
+    public void init() {
 
-        reportTypes.add("Produtos");
-        reportTypes.add("Intervalo de datas");
-        reportTypes.add("Intervalo de datas e produtos");
+        productList = productService.findAllTypeProducts();
 
+        for (Product product: productList) {
+            productNameList.add(product.getName());
+        }
+
+        if(reportType.isEmpty()) {
+            reportTypes.add("Produtos");
+            reportTypes.add("Mesas");
+        }
     }
 
-    public void goToReport(){
+    public void goToReport() {
 
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("relatorio.xhtml");
@@ -84,8 +112,23 @@ public class SaleReport implements Serializable {
         }
     }
 
-    public void generateReport(){
+    public boolean validateConsult(){
 
+        if(initialDate.isBefore(finalDate) && productName != null){
+            return true;
+        }else {
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", "Selecione datas ou produtos válidos!"));
+            return false;
+        }
+
+    }
+
+
+    public void generateReport() {
+
+
+        if(validateConsult()){
         saleFilteredByHour = saleService.findSalesByDateRange(initialDate, finalDate);
         Map<LocalDate, List<Sale>> salesByDate = saleService.groupSalesByDate(saleFilteredByHour);
         saleFilteredByHour.clear();
@@ -93,23 +136,45 @@ public class SaleReport implements Serializable {
             List<Sale> salesOnDate = salesByDate.get(date);
             saleFilteredByHour.addAll(salesOnDate);
         }
+
+        if(permission == 1){
         createLineModel();
-        createBarModelByDesks();
+        createBarModelByPrduct();
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("report.xhtml");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        } else if (permission ==2 ) {
+            createLineModel();
+            createBarModelByDesks();
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("report.xhtml");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        }
+
     }
 
     public void update(){
 
+        if(reportType.equals("Produtos")){
+            permission = 1;
+        } else if (reportType.equals("Mesas")) {
+            permission = 2;
+        }else{
+            permission = 0;
+        }
+
         System.out.println(initialDate);
         System.out.println(finalDate);
         System.out.println(reportType);
+        System.out.println(permission);
+        System.out.println(product);
     }
-
-
 
     public Map<LocalDate, List<Sale>> getSalesGroupedByDate(List<Sale> sales) {
         return saleService.groupSalesByDate(sales);
@@ -121,9 +186,22 @@ public class SaleReport implements Serializable {
 
         LineChartDataSet dataSet = new LineChartDataSet();
         List<Object> values = new ArrayList<>();
-        for (Sale sale:saleFilteredByHour) {
-            values.add(sale.getPrice());
+
+        double temp = 0;
+        for (int i = 0; i < saleFilteredByHour.size(); i++) {
+            if(i+1 < saleFilteredByHour.size()){
+
+                if(saleFilteredByHour.get(i).getDate().isAfter(saleFilteredByHour.get(i+1).getDate())){
+                            temp += saleFilteredByHour.get(i).getPrice();
+                            values.add(temp);
+                            temp = 0;
+                }else{
+                    temp += saleFilteredByHour.get(i).getPrice();
+                }
+
+            }
         }
+        values.add(temp);
         dataSet.setData(values);
         dataSet.setFill(false);
         dataSet.setLabel("Valor das vendas");
@@ -132,11 +210,14 @@ public class SaleReport implements Serializable {
         data.addChartDataSet(dataSet);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         List<String> labels = new ArrayList<>();
-        for (Sale sale:saleFilteredByHour) {
-            labels.add(sale.getDate().format(formatter));
-        }
-        data.setLabels(labels);
 
+        for (Sale sale:saleFilteredByHour) {
+            if (!labels.contains(sale.getDate().format(formatter))){
+                 labels.add(sale.getDate().format(formatter));
+            }
+        }
+
+        data.setLabels(labels);
         LineChartOptions options = new LineChartOptions();
         options.setMaintainAspectRatio(false);
         Title title = new Title();
@@ -223,10 +304,80 @@ public class SaleReport implements Serializable {
 
         deskMostValued.setOptions(options);
 
-
     }
 
+    public void createBarModelByPrduct() {
 
+
+        product = productService.findByName(productName);
+        deskMostValued = new BarChartModel();
+        ChartData data = new ChartData();
+
+
+        saleFilteredByHour = saleService.findSalesByDateRange(initialDate, finalDate);
+        for(Sale sale:saleFilteredByHour) {
+            saleItemsFiltered.addAll(saleItemService.findBySaleId(sale.getId()));
+        }
+        double temp = 0;
+        for (SaleItem saleItem: saleItemsFiltered) {
+
+            if(saleItem.getProduct().getId() == product.getId()){
+                    temp += saleItem.getPrice();
+            }
+
+        }
+        BarChartDataSet barDataSet = new BarChartDataSet();
+        barDataSet.setLabel("Vendas por produto " +product.getName());
+
+        List<Number> values = new ArrayList<>();
+
+        values.add(temp);
+        barDataSet.setData(values);
+        data.addChartDataSet(barDataSet);
+
+        List<String> labels = new ArrayList<>();
+
+        labels.add(product.getName());
+
+        data.setLabels(labels);
+        deskMostValued.setData(data);
+
+        //Options
+        BarChartOptions options = new BarChartOptions();
+        options.setMaintainAspectRatio(false);
+        CartesianScales cScales = new CartesianScales();
+        CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+        linearAxes.setOffset(true);
+        linearAxes.setBeginAtZero(true);
+        CartesianLinearTicks ticks = new CartesianLinearTicks();
+        linearAxes.setTicks(ticks);
+        cScales.addYAxesData(linearAxes);
+        options.setScales(cScales);
+
+        Title title = new Title();
+        title.setDisplay(true);
+        title.setText("Produto com vendas: ");
+        options.setTitle(title);
+
+        Legend legend = new Legend();
+        legend.setDisplay(true);
+        legend.setPosition("top");
+        LegendLabel legendLabels = new LegendLabel();
+        legendLabels.setFontStyle("italic");
+        legendLabels.setFontColor("#2980B9");
+        legendLabels.setFontSize(24);
+        legend.setLabels(legendLabels);
+        options.setLegend(legend);
+
+        // disable animation
+        Animation animation = new Animation();
+        animation.setDuration(0);
+        options.setAnimation(animation);
+
+        deskMostValued.setOptions(options);
+
+
+    }
 
 
 }

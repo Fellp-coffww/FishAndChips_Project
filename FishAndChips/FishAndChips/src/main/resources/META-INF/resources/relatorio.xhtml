@@ -79,8 +79,11 @@
     </div>
 
     <div class="container">
-        <h1>Relatório da Empresa</h1>
+
         <h:form id="form2">
+            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+            <p:growl id="growl" showDetail="true" />
+            <h1>Relatório da Empresa</h1>
             <div>
             <h:panelGrid columns="2" styleClass="grid">
                 <h:outputLabel for="group" value="Tipo de relatório:"/>
@@ -92,12 +95,14 @@
                 </p:selectOneMenu>
 
                 <h:outputLabel value="Selecione o produto:" />
-                <p:selectOneMenu id="productType" value="#{saleReport.product}" disabled="#{saleReport.reportType =='Produtos' or saleReport.reportType.equals() == 'Intervalo de datas e produtos'}">
-                    <f:selectItems value="#{productController.products}" />
+                <p:selectOneMenu id="productType" value="#{saleReport.productName}" >
+                    <f:selectItem itemLabel="Selecione o produto: "/>
+                    <f:selectItems value="#{saleReport.productNameList}" />
+                    <p:ajax event="change" listener="#{saleReport.update}"/>
                 </p:selectOneMenu>
 
                 <h:outputLabel for="initialDate" value="Data de início:"/>
-                <p:datePicker value="#{saleReport.initialDate}" id="initialDate">
+                <p:datePicker value="#{saleReport.initialDate}" id="initialDate" >
                     <p:ajax event="change" listener="#{saleReport.update()}"/>
                 </p:datePicker>
 
@@ -107,11 +112,10 @@
                 </p:datePicker>
             </h:panelGrid>
             </div>
+            <p:commandButton type="submit" value="Novo relatório" icon="pi pi-plus"
+                             actionListener="#{saleReport.generateReport()}"
+                             style="margin-right: .5rem; background-color: #0056b3; display: block; margin: 0 auto;" update="growl"/>
         </h:form>
-
-        <p:commandButton type="submit" value="Novo relatório" icon="pi pi-plus"
-                         actionListener="#{saleReport.generateReport()}"
-                         style="margin-right: .5rem; background-color: #0056b3; display: block; margin: 0 auto;"/>
     </div>
 </h:body>
 </html>
