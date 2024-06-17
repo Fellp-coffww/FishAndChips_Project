@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -28,9 +29,9 @@ public class Desk {
 
     private int occupantNumber;
 
-    private Date arrivingHour;
+    private LocalDate arrivingHour;
 
-    private Date exitHour;
+    private LocalDate exitHour;
 
 
 }

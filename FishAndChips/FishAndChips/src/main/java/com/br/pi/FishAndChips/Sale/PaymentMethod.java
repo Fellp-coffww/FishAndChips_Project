@@ -8,7 +8,5 @@ public enum PaymentMethod {
     CARTÃO_CREDITO,
     PIX ;
 
-    String value;
-
 
 }

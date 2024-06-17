@@ -109,7 +109,7 @@
 
             <h:outputLabel value="Método de Pagamento:" for="metodoPagamento" class="label"/>
             <p:selectOneMenu id="metodoPagamento" value="#{saleController.sale.paymentMethod}">
-                <f:selectItems value="#{saleController.paymentMethods}" var="method" itemLabel="#{method}" itemValue="#{method}" />
+                <f:selectItems value="#{saleController.paymentMethods}" var="method" />
             </p:selectOneMenu>
         </h:panelGrid>
 
