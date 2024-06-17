@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class Sale {
     private double price;
 
     @Column(name = "Date")
-    private Date date;
+    private LocalDate date;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private List<SaleItem> saleItemList;
@@ -44,10 +45,10 @@ public class Sale {
 
 
 
-    public Sale(Desk desk, double price, Date date, List<SaleItem> saleItemList, SaleState saleState) {
+    public Sale(Desk desk, double price, LocalDate   localDate, List<SaleItem> saleItemList, SaleState saleState) {
         this.desk = desk;
         this.price = price;
-        this.date = date;
+        this.date = localDate;
         this.saleItemList = saleItemList;
         this.saleState = saleState;
     }

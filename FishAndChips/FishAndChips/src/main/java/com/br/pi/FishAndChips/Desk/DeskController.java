@@ -22,6 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -63,10 +64,8 @@ public class DeskController implements Serializable {
         desks = deskService.getAllDesksOrderedById();
 
         if(desks.size() == 0){
-            LocalDateTime now = LocalDateTime.now();
-            ZonedDateTime zonedDateTime = now.atZone(ZoneId.systemDefault());
             for (int i = 0; i < 40; i++) {
-                desks.add(new Desk(i, DeskState.FREE,0, Date.from(zonedDateTime.toInstant()),Date.from(zonedDateTime.toInstant())));
+                desks.add(new Desk(i, DeskState.FREE,0, LocalDate.now(),LocalDate.now()));
                 deskService.create(desks.get(i));
             }
         }

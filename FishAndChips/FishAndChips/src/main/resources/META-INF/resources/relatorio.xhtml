@@ -1,61 +1,60 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-    <title>Relatorio</title>
+    <title>Relatório</title>
     <link rel="icon" type="image/jpg" href="img/41d41629fa61f6a532018f0cde7a2017.jpg"/>
     <style>
         body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f9;
-        color: #333;
-        margin: 0;
-        padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
-        max-width: 600px;
-        margin: 50px auto;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
         h1 {
-        text-align: center;
-        color: #0056b3;
-        margin-bottom: 20px;
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 20px;
         }
 
         .grid {
-        width: 100%;
-        margin-bottom: 20px;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         .grid h:outputLabel {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-right: 10px;
         }
 
         .grid h:selectOneMenu, .grid h:inputText {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
-
-
     </style>
 </h:head>
+
 <h:body>
     <div class="card">
         <h:form>
@@ -78,40 +77,41 @@
             </p:megaMenu>
         </h:form>
     </div>
+
     <div class="container">
         <h1>Relatório da Empresa</h1>
-        <h:form>
+        <h:form id="form2">
+            <div>
             <h:panelGrid columns="2" styleClass="grid">
-                <h:outputLabel for="mes" value="Mês:" />
-                <h:selectOneMenu id="mes" value="#{relatorioBean.mes}">
-                    <f:selectItem itemLabel="Selecione" itemValue="" />
-                    <f:selectItem itemLabel="Janeiro" itemValue="1" />
-                    <f:selectItem itemLabel="Fevereiro" itemValue="2" />
-                    <f:selectItem itemLabel="Março" itemValue="3" />
-                    <f:selectItem itemLabel="Abril" itemValue="4" />
-                    <f:selectItem itemLabel="Maio" itemValue="5" />
-                    <f:selectItem itemLabel="Junho" itemValue="6" />
-                    <f:selectItem itemLabel="Julho" itemValue="7" />
-                    <f:selectItem itemLabel="Agosto" itemValue="8" />
-                    <f:selectItem itemLabel="Setembro" itemValue="9" />
-                    <f:selectItem itemLabel="Outubro" itemValue="10" />
-                    <f:selectItem itemLabel="Novembro" itemValue="11" />
-                    <f:selectItem itemLabel="Dezembro" itemValue="12" />
-                </h:selectOneMenu>
+                <h:outputLabel for="group" value="Tipo de relatório:"/>
 
-                <h:outputLabel for="ano" value="Ano:" />
-                <h:inputText id="ano" value="#{relatorioBean.ano}" />
+                <p:selectOneMenu value="#{saleReport.reportType}" id="group">
+                    <f:selectItem itemLabel="Selecione o tipo de relatório:"/>
+                    <f:selectItems value="#{saleReport.reportTypes}"/>
+                    <p:ajax event="change" listener="#{saleReport.update()}"/>
+                </p:selectOneMenu>
 
+                <h:outputLabel value="Selecione o produto:" />
+                <p:selectOneMenu id="productType" value="#{saleReport.product}" disabled="#{saleReport.reportType =='Produtos' or saleReport.reportType.equals() == 'Intervalo de datas e produtos'}">
+                    <f:selectItems value="#{productController.products}" />
+                </p:selectOneMenu>
+
+                <h:outputLabel for="initialDate" value="Data de início:"/>
+                <p:datePicker value="#{saleReport.initialDate}" id="initialDate">
+                    <p:ajax event="change" listener="#{saleReport.update()}"/>
+                </p:datePicker>
+
+                <h:outputLabel for="finalDate" value="Data final:"/>
+                <p:datePicker value="#{saleReport.finalDate}" id="finalDate" >
+                    <p:ajax event="change" listener="#{saleReport.update()}"/>
+                </p:datePicker>
             </h:panelGrid>
-            <p style="text-align: center;">Tipos de Relatório:</p>
-            <p:link outcome="Comanda" value="Gerar" style="display: block; width: 100%;padding: 10px;background-color: #0056b3;color: white;border: none;border-radius: 4px;cursor: pointer;text-align: center;font-size: 16px;"/>
+            </div>
         </h:form>
 
-        <h:panelGroup rendered="#{relatorioBean.tipoRelatorio == 'resumo'}">
-            <h:graphicImage value="/relatorio_resumido.png" alt="Gráfico Resumido"/>
-        </h:panelGroup>
+        <p:commandButton type="submit" value="Novo relatório" icon="pi pi-plus"
+                         actionListener="#{saleReport.generateReport()}"
+                         style="margin-right: .5rem; background-color: #0056b3; display: block; margin: 0 auto;"/>
     </div>
-
 </h:body>
 </html>
-

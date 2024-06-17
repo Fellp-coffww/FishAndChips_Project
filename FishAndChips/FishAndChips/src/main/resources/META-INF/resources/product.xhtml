@@ -111,7 +111,7 @@
                     <div class="form-element">
                         <h:outputLabel for="image" value="Imagem:" />
                         <p:fileUpload id="image" value="#{productController.originalImageFile}" mode="simple" skinSimple="true"
-                                      accept="image/*" required="true" fileLimit="10485760" />
+                                      accept="image/*" required="true" fileLimit="10485760" label="Selecione"/>
                     </div>
 
                     <div class="form-element">
@@ -124,7 +124,7 @@
 
                     <f:facet name="footer">
                         <div class="card-footer">
-                            <p:commandButton icon="pi pi-check" value="Salvar" action="#{productController.saveProduct()}" ajax="false" />
+                            <p:commandButton icon="pi pi-check" value="Salvar" action="#{productController.saveProduct()}" ajax="false" style="margin-right: .5rem;border-color: #0056b3; background-color: #0056b3" />
                         </div>
                     </f:facet>
                 </p:card>

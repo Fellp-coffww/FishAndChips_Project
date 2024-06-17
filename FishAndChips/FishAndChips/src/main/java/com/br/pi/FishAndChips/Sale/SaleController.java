@@ -285,10 +285,7 @@ public class SaleController implements Serializable {
             deskService.update(desk);
             FacesMessage msg = new FacesMessage("Sucesso!", "Comanda aberta com sucesso!");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            LocalDate localDate = LocalDate.now();
-            ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
-            Date date = Date.from(zonedDateTime.toInstant());
-            Sale newsale = new Sale(desk,getPriceList(),date, saleItemList,SaleState.CREATED);
+            Sale newsale = new Sale(desk,getPriceList(),LocalDate.now(), saleItemList,SaleState.CREATED);
             saleService.create(newsale);
             sale = newsale;
             deskController.updateLists();

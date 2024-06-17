@@ -4,6 +4,7 @@ import com.br.pi.FishAndChips.Desk.Desk;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -20,6 +21,6 @@ Sale findSaleById(Long id);
 
 List<Sale> findByDeskIdAndSaleState(Long deskId, SaleState saleState);
 
-
+List<Sale> findByDateBetween(LocalDate startDate, LocalDate endDate);
 
 }

@@ -46,4 +46,9 @@ public class Product {
         this.image = image;
         this.category = category;
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

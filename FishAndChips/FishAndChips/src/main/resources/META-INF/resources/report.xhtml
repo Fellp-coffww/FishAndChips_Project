@@ -4,26 +4,25 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-
-    <title>Vendas realizadas</title>
-
+    <title>Relatório de Vendas</title>
 
     <style>
 
-        body, h2, h3, h4, h6 {
+      h2, h3, h4, h6, .product-item-content {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
             font-size: 20px;
+            margin-right: .5rem;
+            color: #0056b3;
+            display: block;
+            margin: 0 auto;
         }
 
     </style>
-
 </h:head>
 
 <h:body>
 
-
-
-    <div class="menu-bar">
+    <div class="card">
         <h:form id="form2">
             <p:megaMenu orientation="horizontal" autoDisplay="false">
                 <f:facet name="start">
@@ -44,14 +43,18 @@
         </h:form>
     </div>
 
-    <h2 style="color: #0056b3" >Tabela de vendas
-        <p:commandButton type="submit" value="Gerar relatórios " icon="pi pi-plus" actionListener="#{saleReport.goToReport}"
-                         style="margin-right: .5rem; background-color: #0056b3"/>
-    </h2>
+    <div class="card">
+        <h:form id="form3">
+          <h2>Vendas no período selecionado:</h2>
+            <p:lineChart id="lineChart" model="#{saleReport.salesValues}" style="width: 100%; height: 500px;"/>
+            <h2>Vendas no período selecionado separados por mesa:</h2>
+            <p:barChart id="barChart" model="#{saleReport.deskMostValued}" style="width: 100%; height: 500px;"/>
+        </h:form>
+    </div>
 
-    <h:form>
+    <h:form id="form4">
         <div class="card">
-            <p:dataTable var="sale" value="#{saleController.sales}">
+            <p:dataTable id="table" var="sale" value="#{saleReport.saleFilteredByHour}">
                 <p:column headerText="Código da venda" sortBy="#{sale.id}">
                     <h:outputText value="#{sale.id}" />
                 </p:column>
@@ -62,7 +65,7 @@
 
                 <p:column headerText="Preço" sortBy="#{sale.price}">
                     <h:outputText value="#{sale.price}" >
-                    <f:convertNumber type="currency" currencySymbol="R$"/>
+                        <f:convertNumber type="currency" currencySymbol="R$"/>
                     </h:outputText>
                 </p:column>
 
@@ -71,13 +74,11 @@
                 </p:column>
 
                 <p:column headerText="Data da venda: " sortBy="#{sale.date}">
-                    <h:outputText value="#{sale.date}"  >
-                    </h:outputText>
+                    <h:outputText value="#{sale.date}"  />
                 </p:column>
-
-
             </p:dataTable>
         </div>
     </h:form>
+
 </h:body>
 </html>
