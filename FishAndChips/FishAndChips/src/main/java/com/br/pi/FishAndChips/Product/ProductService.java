@@ -54,9 +54,6 @@ public class ProductService {
     }
 
 
-
-
-
     public List<Product> findAllTypeProducts(){return productRepository.findAll();}
 
 
@@ -74,5 +71,11 @@ public class ProductService {
         productRepository.delete(product);
     }
 
+
+    public Product findByName(String name){
+
+        return productRepository.findByName(name);
+
+    }
 
 }

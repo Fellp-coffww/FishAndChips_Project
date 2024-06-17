@@ -67,17 +67,8 @@
                     <p:commandButton type="submit" value="Nova Categoria" icon="pi pi-plus" actionListener="#{productController.newCategory()}"
                                      style="margin-right: .5rem; background-color: #0056b3">
                     </p:commandButton>
-                    <p:commandButton id="delete-products-button" value="Delete"
-                                     icon="pi pi-trash" actionListener="#"
-                                     styleClass="ui-button-danger" disabled="" update="@this">
-                        <p:confirm header="Confirmation" message="Delete the selected products?"
-                                   icon="pi pi-exclamation-triangle" />
-                    </p:commandButton>
                 </p:toolbarGroup>
                 <p:toolbarGroup align="right">
-                    <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
-                        <p:dataExporter type="pdf" target="dt-products" fileName="products" />
-                    </p:commandButton>
                 </p:toolbarGroup>
             </p:toolbar>
 

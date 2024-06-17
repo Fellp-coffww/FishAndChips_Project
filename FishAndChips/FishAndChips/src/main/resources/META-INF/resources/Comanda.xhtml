@@ -175,7 +175,8 @@
             </div>
             <div class="input-container">
                 <label  for="numPessoas">Abertura de comanda</label>
-                <p:commandButton type="submit" id="AbrirMesa"  value="Abrir comanda"  actionListener="#{saleController.openSale}" disabled="#{saleController.desk.tableState == 'BUSY' or saleController.desk.tableState == 'WAINTING_PAYMENT'}" styleClass="ui-button-raised ui-button-success" update="@form growl"/>
+                <p:commandButton type="submit" id="AbrirMesa"  value="Abrir comanda"  actionListener="#{saleController.openSale}" disabled="#{saleController.desk.tableState == 'BUSY' or saleController.desk.tableState == 'WAINTING_PAYMENT'}" styleClass="ui-button-raised ui-button-success"
+                                 update="form2"/>
             </div>
             <div class="input-container">
                 <label  for="numPessoas">Cancelar comanda</label>
@@ -226,7 +227,7 @@
                 </div>
             </p:carousel>
         </div>
-            
+
 
         <!--- Bloco de seleção de itens da comanda  -->
 

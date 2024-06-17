@@ -3,9 +3,12 @@ package com.br.pi.FishAndChips.Product;
 import com.br.pi.FishAndChips.Category.Category;
 import com.br.pi.FishAndChips.Category.CategoryDto;
 import com.br.pi.FishAndChips.Category.CategoryService;
+import com.br.pi.FishAndChips.DashBoard.SaleReport;
 import com.br.pi.FishAndChips.Product.Product;
 import com.br.pi.FishAndChips.Product.ProductDto;
 import com.br.pi.FishAndChips.Product.ProductService;
+import com.br.pi.FishAndChips.Sale.Sale;
+import com.br.pi.FishAndChips.Sale.SaleController;
 import com.br.pi.FishAndChips.SaleItem.SaleItemService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -84,6 +87,14 @@ public class ProductController implements Serializable {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Inject
+    SaleController saleController;
+
+    @Inject
+    SaleReport saleReport;
+
+
     @PostConstruct
     public void init() {
 
@@ -165,6 +176,8 @@ public class ProductController implements Serializable {
             }
 
             products = productService.findAllTypeProducts();
+            saleController.updateProduct();
+            saleReport.init();
             FacesContext.getCurrentInstance().getExternalContext().redirect("productEdit.xhtml");
             return null;
         } catch (Exception e) {
@@ -186,6 +199,8 @@ public class ProductController implements Serializable {
         try {
             productService.create(selectedProduct);
             products = productService.findAllTypeProducts();
+            saleController.updateProduct();
+            saleReport.init();
             PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");
             PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
         }catch (Exception e){
